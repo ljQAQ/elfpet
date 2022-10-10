@@ -1,6 +1,7 @@
 package com.elf.mapper;
 
 import com.elf.domain.GType;
+import com.elf.dto.GTypeDto;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,7 @@ public interface GTypeMapper {
     @Select("select * from gtype where id = #{arg0}")
     GType getById(Long id);
 
-    List<GType> getChild(Integer id);
+    List<GTypeDto> getChild(Integer id);
 
-    List<GType> getAll();
+    List<GTypeDto> getAll();
 }

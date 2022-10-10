@@ -4,10 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.elf.mapper.GTypeMapper">
 
-    <resultMap id="TreeResultGType" type="GType">
-        <id property="id" column="id"/>
+    <resultMap id="TreeResultGType" type="GTypeDto">
+        <id property="value" column="id"/>
+        <result property="label" column="type_name"/>
         <collection property="children"
-                    ofType="GType"
+                    ofType="GTypeDto"
                     column="id"
                     javaType="java.util.ArrayList"
                     select="com.elf.mapper.GTypeMapper.getChild"

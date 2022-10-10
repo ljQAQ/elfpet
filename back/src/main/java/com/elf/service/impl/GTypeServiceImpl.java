@@ -2,6 +2,7 @@ package com.elf.service.impl;
 
 import com.elf.commonutils.Result;
 import com.elf.domain.GType;
+import com.elf.dto.GTypeDto;
 import com.elf.mapper.GTypeMapper;
 import com.elf.service.GTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,18 @@ public class GTypeServiceImpl implements GTypeService {
 
     @Override
     public Result getTreeList() {
-        return Result.ok().data("gtypeOptions", gTypeMapper.getAll());
+        List<GTypeDto> all = gTypeMapper.getAll();
+        for (GTypeDto gTypeDto : all) {
+            if (gTypeDto.getChildren().size()==0){
+                gTypeDto.setChildren(null);
+            }else {
+                for (GTypeDto child : gTypeDto.getChildren()) {
+//                    if (child.getChildren().size()==0)
+                    child.setChildren(null);
+                }
+            }
+        }
+
+        return Result.ok().data("gtypeOptions", all);
     }
 }
