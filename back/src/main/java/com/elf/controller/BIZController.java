@@ -13,6 +13,7 @@ public class BIZController {
     @Autowired
     BIZService bizService;
 
+
     @RequestMapping("/getAll")
     public Result getAll(){
         return bizService.getAll();

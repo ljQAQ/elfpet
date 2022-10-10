@@ -16,5 +16,6 @@ public class GoodsController {
                                 @RequestParam(required = false,defaultValue = "5")Integer pageSize,
                                 @RequestParam(required = false) String key){
         return goodsService.getGoodsByPage(pageNum,pageSize);
+
     }
 }

@@ -18,4 +18,5 @@ public class GTypeController {
     public Result getAll(){
         return gTypeService.getTreeList();
     }
+
 }
