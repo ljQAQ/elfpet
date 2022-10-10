@@ -1,0 +1,24 @@
+.el-header,
+.el-footer {
+    background-color: #b3c0d1;
+    color: #333;
+}
+
+.el-aside {
+    background-color: #d3dce6;
+    color: #333;
+}
+
+.el-main {
+    background-color: #e9eef3;
+    color: #333;
+}
+
+body > .el-container {
+}
+body > .el-container > .el-container {
+    height: 630px;
+}
+.el-menu-item:hover {
+    background-color: #333;
+}

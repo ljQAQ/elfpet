@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elf.mapper.GoodsMapper">
+
+    <resultMap id="resultGoods" type="Goods">
+        <id property="id" column="id"></id>
+        <association property="gType" column="gtype_id" select="com.elf.mapper.GTypeMapper.getById"></association>
+        <association property="biz" column="biz_id" select="com.elf.mapper.BIZMapper.getById"></association>
+    </resultMap>
+
+    <select id="getGoodsByPage" resultMap="resultGoods">
+        select * from goods
+    </select>
+
+</mapper>
