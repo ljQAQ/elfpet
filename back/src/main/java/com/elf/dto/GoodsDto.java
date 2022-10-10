@@ -12,18 +12,18 @@ import java.util.Date;
 public class GoodsDto {
     
 
-    private Integer gtype_id;
-    private String goods_name;
-    private String goods_img;
-    private String goods_intro;
-    private Integer goods_sum;
-    private Integer goods_sold;
-    private Double goods_price;
-    private Integer biz_id;
+    private Integer gtypeId;
+    private String goodsName;
+    private String goodsImg;
+    private String goodsIntro;
+    private Integer goodsSum;
+    private Integer goodsSold;
+    private Double goodsPrice;
+    private Integer bizId;
     private Integer state;
-    private Date create_time;
-    private Integer create_user;
-    private Date update_time;
-    private Integer update_user;
-    private Integer is_delete;
+    private Date createTime;
+    private Integer createUser;
+    private Date updateTime;
+    private Integer updateUser;
+    private Integer isDelete;
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elf.mapper.GTypeMapper">
+
+    <resultMap id="TreeResultGType" type="GType">
+        <id property="id" column="id"/>
+        <collection property="children"
+                    ofType="GType"
+                    column="id"
+                    javaType="java.util.ArrayList"
+                    select="com.elf.mapper.GTypeMapper.getChild"
+        />
+    </resultMap>
+
+    <select id="getAll" resultMap="TreeResultGType">
+        select * from gtype where pid = 0
+    </select>
+
+    <select id="getChild" resultMap="TreeResultGType" parameterType="int">
+        select * from gtype where pid = #{id}
+    </select>
+</mapper>

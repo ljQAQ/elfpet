@@ -13,7 +13,7 @@
     <el-row>
         <el-col :span="3">
             <div class="grid-content bg-purple">
-                <el-button type="primary" icon="el-icon-circle-plus" @click="dialogFormVisible = true">添加</el-button>
+                <el-button type="primary" icon="el-icon-circle-plus" @click="handleAdd">添加</el-button>
             </div>
         </el-col>
         <el-col :span="3">
@@ -58,7 +58,7 @@
         </el-table-column>
         <el-table-column label="商品类型" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.gType }}</span>
+                <span style="margin-left: 10px">{{ scope.row.gtype.typeName }}</span>
             </template>
         </el-table-column>
         <el-table-column label="商品数量" width="180">
@@ -127,12 +127,32 @@
     </el-pagination>
 
     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
-        <el-form :model="classes">
-            <el-form-item label="班级名" :label-width="formLabelWidth">
-                <el-input v-model="classes.classes_name" autocomplete="off"></el-input>
+        <el-form :model="goods">
+            <el-form-item label="商品名" :label-width="formLabelWidth">
+                <el-input v-model="goods.goodsName" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="课程ID" :label-width="formLabelWidth">
-                <el-input v-model="classes.college_id" autocomplete="off"></el-input>
+            <el-form-item label="商品简介" :label-width="formLabelWidth">
+                <el-input v-model="goods.goodsIntro" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="商品类型" :label-width="formLabelWidth">
+                <el-cascader
+                        v-model="createOrUpdate.gtypeValue"
+                        :options="createOrUpdate.gtypeOptions"></el-cascader>
+<!--                <el-input v-model="classes.classes_name" autocomplete="off"></el-input>-->
+            </el-form-item>
+            <el-form-item label="商家" :label-width="formLabelWidth">
+                <<el-cascader
+                    v-model="createOrUpdate.bizValue"
+                    :options="createOrUpdate.bizOptions"></el-cascader>
+            </el-form-item>
+            <el-form-item label="商品数量" :label-width="formLabelWidth">
+                <el-input v-model="goods.goodsSum" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="商品价格" :label-width="formLabelWidth">
+                <el-input v-model="goods.goodsPrice" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="商品封面" :label-width="formLabelWidth">
+                <el-input v-model="goods.goodsImg" autocomplete="off"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -153,8 +173,25 @@
         classes_name: '',
         college_id: '',
     }
+    var goods={
+        id:null,
+        goodsName:'',
+        goodsIntro:'',
+        gtypeId:createOrUpdate.gtypeValue[createOrUpdate.gtypeValue.length-1],
+        bizId:createOrUpdate.bizValue[createOrUpdate.bizValue.length-1],
+        goodsSum:0,
+        goodsPrice:0,
+        goodsImg:'',
+    }
+    var createOrUpdate={
+        gtypeOptions:[],
+        bizOptions:[],
+        gtypeValue:[],
+        bizValue:[],
+    }
     var data = {
         tableData: [],
+        createOrUpdate:createOrUpdate,
         totalNums: 0,
         pageSize: 3,
         currentPage: 1,
@@ -162,8 +199,8 @@
         dialogFormVisible: false,
         dialogTitle: '',
         classes: classes,
+        goods:goods,
         formLabelWidth: '120px'
-
     }
     var app = new Vue({
         el: "#tb",
@@ -200,16 +237,45 @@
                 this.getData();
             },
             handleEdit(row) {
-                classes.id = row.id
-                classes.classes_name = row.classes_name
-                classes.college_id = row.college_id
+                goods.id = row.id
+                goods.goodsName=row.goodsName
+                goods.goodsIntro=row.goodsIntro
+                goods.gtypeId=row.gtypeId
+                goods.bizId=row.bizId
+                goods.goodsSum=row.goodsSum
+                goods.goodsPrice=row.goodsPrice
+                goods.goodsImg=row.goodsImg
                 this.dialogTitle = '编辑';
                 this.dialogFormVisible = true
             },
+            getGoodsOption(){
+                axios.get('',{
+                    params:{
+
+                    }
+                }).then((res)=>{
+                    var data = res.data;
+                    if (data.code == "20000") {
+
+                    } else {
+
+                    }
+                })
+            },
+            getGoodsValue(){
+
+            },
             handleAdd() {
-                classes.id = null
-                classes.classes_name = ''
-                classes.college_id = null
+                goods.id = null
+                goods.goodsName=''
+                goods.goodsIntro=''
+                goods.gtypeId=null
+                goods.bizId=null
+                goods.goodsSum=0
+                goods.goodsPrice=0
+                goods.goodsImg=''
+                createOrUpdate.gtypeValue=[]
+                createOrUpdate.bizValue=[]
                 this.dialogTitle = '添加';
                 this.dialogFormVisible = true
             },

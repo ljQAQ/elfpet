@@ -14,4 +14,6 @@ public interface GoodsMapper {
     Goods getById();
 
     List<Goods> getGoodsByPage();
+
+
 }
