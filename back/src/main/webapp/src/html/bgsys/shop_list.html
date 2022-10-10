@@ -31,7 +31,7 @@
         </el-col>
         <el-button type="primary" icon="el-icon-search" @click="getData">查询</el-button>
     </el-row>
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="tableData" style="width: 100%"  height="550" border>
         <el-table-column
                 type="selection"
                 width="55">
@@ -63,7 +63,7 @@
         </el-table-column>
         <el-table-column label="商品数量" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsNum }}</span>
+                <span style="margin-left: 10px">{{ scope.row.goodsSum }}</span>
             </template>
         </el-table-column>
         <el-table-column label="商品已销售" width="180">
@@ -202,7 +202,7 @@
         tableData: [],
         createOrUpdate:createOrUpdate,
         totalNums: 0,
-        pageSize: 3,
+        pageSize: 10,
         currentPage: 1,
         key: '',
         dialogFormVisible: false,
@@ -233,9 +233,9 @@
                         var pageUtils = data.data.goodsPage;
                         this.tableData = pageUtils.list;
                         console.log(this.tableData)
-                        this.totalNums = pageUtils.totalNums;
+                        this.totalNums = pageUtils.totalCount;
                         this.pageSize = pageUtils.pageSize;
-                        this.currentPage = pageUtils.currentPage;
+                        this.currentPage = pageUtils.currPage;
                     } else {
                         this.changepage(this.currentPage - 1)
                     }
