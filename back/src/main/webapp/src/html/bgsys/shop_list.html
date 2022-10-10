@@ -36,7 +36,7 @@
                 type="selection"
                 width="55">
         </el-table-column>
-        <el-table-column label="ID" width="180">
+        <el-table-column label="ID" width="70">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.id }}</span>
             </template>
@@ -182,10 +182,9 @@
                 }).then((res) => {
                     var data = res.data;
                     if (data.code == "20000") {
-
-                        console.log(res)
                         var pageUtils = data.data.goodsPage;
                         this.tableData = pageUtils.list;
+                        this.tableData[0]
                         console.log(this.tableData)
                         this.totalNums = pageUtils.totalNums;
                         this.pageSize = pageUtils.pageSize;
