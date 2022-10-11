@@ -141,6 +141,7 @@
                         :value="createOrUpdate.gtypeOptions.id"
                         :label="createOrUpdate.gtypeOptions.typeName"
                 ></el-cascader>
+<!--                <el-input v-model="classes.classes_name" autocomplete="off"></el-input>-->
             </el-form-item>
             <el-form-item label="商家" :label-width="formLabelWidth">
                 <el-cascader
@@ -151,7 +152,7 @@
 <!--                        :key="item.id"-->
 <!--                        :label="item.bizName"-->
 <!--                        :value="item.id">-->
-<!--                </el-option>-->
+                </el-option>
             </el-form-item>
             <el-form-item label="商品数量" :label-width="formLabelWidth">
                 <el-input v-model="goods.goodsSum" autocomplete="off"></el-input>
@@ -176,6 +177,11 @@
 <script src="../../../assets/css/elementui/elementui.js"></script>
 <script src="../../../assets/js/axios.js"></script>
 <script>
+    var classes = {
+        id: null,
+        classes_name: '',
+        college_id: '',
+    }
     var goods={
         id:null,
         goodsName:'',
@@ -201,6 +207,7 @@
         key: '',
         dialogFormVisible: false,
         dialogTitle: '',
+        classes: classes,
         goods:goods,
         formLabelWidth: '120px'
     }
