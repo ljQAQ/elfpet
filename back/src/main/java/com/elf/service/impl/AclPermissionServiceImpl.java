@@ -46,6 +46,7 @@ public class AclPermissionServiceImpl implements AclPermissionService {
             }else
                 return Result.error().message("权限更新失败");
         }else {
+            aclPermission.setId(String.valueOf(System.currentTimeMillis()));
             Integer r = aclPermissionMapper.addPermission(aclPermission);
             if (r==1){
                 return Result.ok();
