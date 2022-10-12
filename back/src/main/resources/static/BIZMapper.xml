@@ -4,4 +4,36 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.elf.mapper.BIZMapper">
 
+	<!--int addOneBIZ(BIZ biz);-->
+	<insert id="addOneBIZ" parameterType="BIZ" >
+		insert into biz values (#{biz.id},#{biz.bizName},#{biz.bizSite},#{biz.createTime})
+	</insert>
+
+	<!--int deleteMany(String ids);-->
+	<delete id="deleteMany">
+		delete from biz where id in (${ids})
+	</delete>
+
+
+	<!--int updateOne(BIZ biz);-->
+	<update id="updateOne" parameterType="BIZ">
+		update biz
+		<set>
+			<if test="bizName != null and bizName != ''">
+				biz_name = #{bizName},
+			</if>
+			<if test="bizSite != null and bizSite != ''">
+				biz_Site = #{bizSite},
+			</if>
+			<if test="createTime != null and createTime != ''">
+				create_Time = #{createTime},
+			</if>
+		</set>
+		<where>
+		    id = #{id}
+		</where>
+
+
+	</update>
+
 </mapper>
