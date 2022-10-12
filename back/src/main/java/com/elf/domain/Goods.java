@@ -13,11 +13,13 @@ public class Goods {
     private Integer id;
 
     private String goodsName;
+    private String goodsNo;
     private String goodsImg;
-    private String goodsIntro;
+    private String goodsDesc;
     private Integer goodsSum;
     private Integer goodsSold;
     private Double goodsPrice;
+    private Integer pv;
 
     private Integer state;
     private Date createTime;
@@ -29,4 +31,6 @@ public class Goods {
     private GType gType;
 
     private BIZ biz;
+
+    private Integer desc;
 }

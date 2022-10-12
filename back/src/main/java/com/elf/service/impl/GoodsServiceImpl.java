@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -33,6 +34,7 @@ public class GoodsServiceImpl implements GoodsService {
             return Result.error();
         }
         PageInfo<Goods> pageInfo = new PageInfo<>(goodsByPage);
+
         PageUtils pageUtils = new PageUtils(pageInfo.getList(),(int)pageInfo.getTotal(),pageSize,pageNum);
         return Result.ok().data("goodsPage",pageUtils);
     }

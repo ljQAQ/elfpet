@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="GBK"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+    <link rel="stylesheet" href="../../../assets/css/elementui/theme/index.css"/>
+
+</head>
+<body style="margin: 2px;height: 520px">
+<div id="tb">
+    <div class="custom-tree-container">
+        <div class="block">
+            <el-tree
+                    :data="tableData"
+                    node-key="id"
+                    default-expand-all
+                    :expand-on-click-node="false">
+              <span class="custom-tree-node" slot-scope="{ node, data }">
+                <span>{{ node.label }}</span>
+                <span>
+                  <el-button
+                          type="text"
+                          size="mini"
+                          @click="() => handleAdd(node, data)">
+                    添加子节点
+                  </el-button>
+                    <el-button
+                            type="text"
+                            size="mini"
+                            @click="() => handleEdit(node, data)">
+                    修改节点
+                  </el-button>
+                  <el-button
+                          type="text"
+                          size="mini"
+                          @click="() => remove(node, data)">
+                    删除节点
+                  </el-button>
+                </span>
+              </span>
+            </el-tree>
+        </div>
+    </div>
+
+    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
+        <el-form :model="aclPermission">
+            <el-form-item label="父节点名" :label-width="formLabelWidth">
+                <span>{{aclPermission.pName}}</span>
+<!--                <el-input v-model="goods.goodsName" autocomplete="off"></el-input>-->
+            </el-form-item>
+            <el-form-item label="节点名" :label-width="formLabelWidth">
+                <el-input v-model="aclPermission.name" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="类型" :label-width="formLabelWidth">
+                <el-radio-group v-model="aclPermission.type">
+                    <el-radio-button label="1">菜单</el-radio-button>
+                    <el-radio-button label="2">按钮</el-radio-button>
+                </el-radio-group>
+            </el-form-item>
+
+            <el-form-item label="访问路径" :label-width="formLabelWidth">
+                <el-input v-model="aclPermission.path" autocomplete="off"></el-input>
+            </el-form-item>
+<!--            <el-form-item label="组件" :label-width="formLabelWidth">-->
+<!--                <el-input v-model="aclPermission.component" autocomplete="off"></el-input>-->
+<!--            </el-form-item>-->
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="createOrUpdate">确 定</el-button>
+        </div>
+    </el-dialog>
+</div>
+
+</body>
+<script src="../../../assets/js/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="../../../assets/css/elementui/elementui.js"></script>
+<script src="../../../assets/js/axios.js"></script>
+<script>
+
+    var aclPermission = {
+        id:null,
+        pid:'',
+        pName:"",
+        name:"",
+        type:1,
+        permissionValue:"",
+        path:"",
+        component:"",
+        icon:"",
+        status:null,
+    }
+
+    var data = {
+        tableData: [],
+        dialogFormVisible: false,
+        dialogTitle: '',
+        formLabelWidth: '120px',
+        aclPermission:aclPermission,
+    }
+    var app = new Vue({
+        el: "#tb",
+        data: data,
+        created() {
+            this.getData();
+        },
+        methods: {
+            getData() {
+                axios.get('http://localhost:8002/aclPermission/getTreeList', {
+                    params: {
+                    }
+                }).then((res) => {
+                    var data = res.data;
+                    console.log(res)
+                    if (data.code == "20000") {
+                        this.tableData = data.data.aclPermissionOptions;
+                    } else {
+                        this.$message.error(data.message);
+                    }
+                })
+            },
+            handleEdit(node) {
+                console.log(node)
+                aclPermission.id = node.data.id;
+                aclPermission.pid = node.parent.data.id;
+                aclPermission.pName = node.parent.data.label;
+                aclPermission.name = node.data.label;
+                aclPermission.type = node.data.type;
+                console.log(node.data.type)
+                aclPermission.permissionValue = node.data.permissionValue;
+                aclPermission.path = node.data.path;
+                aclPermission.component = node.data.component;
+                aclPermission.icon = node.data.icon;
+                aclPermission.status = node.data.status;
+                console.log(aclPermission)
+                this.dialogTitle = '编辑';
+                this.dialogFormVisible = true
+            },
+            handleAdd(node, data) {
+                aclPermission.id = null;
+                aclPermission.pid = node.data.id;
+                aclPermission.pName = node.data.label;
+                aclPermission.name = "";
+                aclPermission.type = 1;
+                aclPermission.permissionValue = "";
+                aclPermission.path = "";
+                aclPermission.component = "";
+                aclPermission.icon = "";
+                aclPermission.status = 1;
+
+                this.dialogTitle = '添加';
+                this.dialogFormVisible = true
+            },
+            createOrUpdate() {
+                axios.post('http://localhost:8002/aclPermission/createOrUpdate', {
+                    params: {
+                        "aclPermission":this.aclPermission
+                    }
+                }).then((res) => {
+                    var data = res.data;
+                    if (data.code == "20000") {
+                        this.$message({
+                            message: data.message,
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error(data.message);
+                    }
+                    this.dialogFormVisible = false
+                    this.getData();
+                })
+            },
+            remove(node) {
+                axios.get('http://localhost:8002/classes', {
+                    params: {
+                        "id":node.id,
+                    }
+                }).then((res) => {
+                    var data = res.data;
+                    if (data.code == "20000") {
+                        this.$message({
+                            message: data.message,
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error(data.message);
+                    }
+                    this.getData();
+                })
+            },
+        },
+    });
+</script>
+</html>

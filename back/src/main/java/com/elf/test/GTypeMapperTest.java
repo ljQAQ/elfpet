@@ -4,6 +4,8 @@ import com.elf.mapper.GTypeMapper;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.UUID;
+
 public class GTypeMapperTest {
     private static GTypeMapper gTypeMapper;
     static {
@@ -14,6 +16,6 @@ public class GTypeMapperTest {
 
     @Test
     public void getAllTest(){
-        System.out.println(gTypeMapper.getAll());
+
     }
 }

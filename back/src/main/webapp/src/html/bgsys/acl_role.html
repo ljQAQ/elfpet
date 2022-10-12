@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../../assets/css/elementui/theme/index.css"/>
 
 </head>
-<body style="margin: 2px;height: 100%">
+<body style="margin: 2px;height: 520px">
 <div id="tb">
     <el-row>
         <el-col :span="3">
@@ -41,11 +41,6 @@
                 <span style="margin-left: 10px">{{ scope.row.id }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="商品编号" width="180">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsNo }}</span>
-            </template>
-        </el-table-column>
         <el-table-column label="商品名" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.goodsName }}</span>
@@ -58,7 +53,7 @@
         </el-table-column>
         <el-table-column label="商品简介" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsDesc }}</span>
+                <span style="margin-left: 10px">{{ scope.row.goodsIntro }}</span>
             </template>
         </el-table-column>
         <el-table-column label="商品类型" width="180">
@@ -66,10 +61,14 @@
                 <span style="margin-left: 10px">{{ scope.row.gtype.typeName }}</span>
             </template>
         </el-table-column>
-
-        <el-table-column label="商品点击量" width="180">
+        <el-table-column label="商品数量" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.pv }}</span>
+                <span style="margin-left: 10px">{{ scope.row.goodsSum }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="商品已销售" width="180">
+            <template slot-scope="scope">
+                <span style="margin-left: 10px">{{ scope.row.goodsSold }}</span>
             </template>
         </el-table-column>
         <el-table-column label="商品价格" width="180">
@@ -226,6 +225,7 @@
                     if (data.code == "20000") {
                         var pageUtils = data.data.goodsPage;
                         this.tableData = pageUtils.list;
+                        console.log(this.tableData)
                         this.totalNums = pageUtils.totalCount;
                         this.pageSize = pageUtils.pageSize;
                         this.currentPage = pageUtils.currPage;
