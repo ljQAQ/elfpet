@@ -21,8 +21,8 @@ public class AclPermission {
     private String path;
     private String component;
     private String icon;
-    private Integer status;
-    private Integer  isDeleted;
+    private Integer status = 1;
+    private Integer  isDeleted = 0;
     private Date gmtCreate;
     private Date gmtModified;
 

@@ -4,10 +4,9 @@ import com.elf.commonutils.Result;
 import com.elf.domain.AclPermission;
 import com.elf.service.AclPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/aclPermission")
@@ -25,8 +24,7 @@ public class AclPermissionController {
         return null;
     }
     @PostMapping("/createOrUpdate")
-    public Result createOrUpdate(AclPermission aclPermission){
-        System.out.println(aclPermission);
+    public Result createOrUpdate(@RequestBody AclPermission aclPermission){
         return aclPermissionService.createOrUpdate(aclPermission);
     }
 

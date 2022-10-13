@@ -18,8 +18,8 @@
                     default-expand-all
                     :expand-on-click-node="false">
               <span class="custom-tree-node" slot-scope="{ node, data }">
-                <span>{{ node.label }}</span>
-                <span>
+                <span>{{ node.label }}</span><span style="left: 150px;position: absolute">{{ node.data.path }}</span>
+                <span style="right: 50%;position: absolute">
                   <el-button
                           type="text"
                           size="mini"
@@ -32,23 +32,34 @@
                             @click="() => handleEdit(node, data)">
                     修改节点
                   </el-button>
-                  <el-button
-                          type="text"
-                          size="mini"
-                          @click="() => remove(node, data)">
-                    删除节点
-                  </el-button>
+                       <el-popover
+                               placement="top"
+                               width="160"
+                               v-model="visible">
+                            <p>确定删除？</p>
+                            <div style="text-align: right; margin: 0">
+                                <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+                                <el-button type="primary" size="mini" @click="() => remove(node, data)">确定</el-button>
+                            </div>
+                            <el-button
+                                    type="text"
+                                    size="mini"
+                                    slot="reference">
+                                删除节点
+                            </el-button>
+                       </el-popover>
+
                 </span>
               </span>
             </el-tree>
         </div>
     </div>
 
+
     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
         <el-form :model="aclPermission">
             <el-form-item label="父节点名" :label-width="formLabelWidth">
                 <span>{{aclPermission.pName}}</span>
-<!--                <el-input v-model="goods.goodsName" autocomplete="off"></el-input>-->
             </el-form-item>
             <el-form-item label="节点名" :label-width="formLabelWidth">
                 <el-input v-model="aclPermission.name" autocomplete="off"></el-input>
@@ -63,9 +74,9 @@
             <el-form-item label="访问路径" :label-width="formLabelWidth">
                 <el-input v-model="aclPermission.path" autocomplete="off"></el-input>
             </el-form-item>
-<!--            <el-form-item label="组件" :label-width="formLabelWidth">-->
-<!--                <el-input v-model="aclPermission.component" autocomplete="off"></el-input>-->
-<!--            </el-form-item>-->
+            <!--            <el-form-item label="组件" :label-width="formLabelWidth">-->
+            <!--                <el-input v-model="aclPermission.component" autocomplete="off"></el-input>-->
+            <!--            </el-form-item>-->
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -82,24 +93,25 @@
 <script>
 
     var aclPermission = {
-        id:null,
-        pid:'',
-        pName:"",
-        name:"",
-        type:1,
-        permissionValue:"",
-        path:"",
-        component:"",
-        icon:"",
-        status:null,
+        id: null,
+        pid: '',
+        pName: "",
+        name: "",
+        type: 1,
+        permissionValue: "",
+        path: "",
+        component: "",
+        icon: "",
+        status: null,
     }
 
     var data = {
         tableData: [],
         dialogFormVisible: false,
+        visible: false,
         dialogTitle: '',
         formLabelWidth: '120px',
-        aclPermission:aclPermission,
+        aclPermission: aclPermission,
     }
     var app = new Vue({
         el: "#tb",
@@ -110,8 +122,7 @@
         methods: {
             getData() {
                 axios.get('http://localhost:8002/aclPermission/getTreeList', {
-                    params: {
-                    }
+                    params: {}
                 }).then((res) => {
                     var data = res.data;
                     console.log(res)
@@ -150,15 +161,22 @@
                 aclPermission.component = "";
                 aclPermission.icon = "";
                 aclPermission.status = 1;
-
                 this.dialogTitle = '添加';
                 this.dialogFormVisible = true
             },
             createOrUpdate() {
+                console.log(this.aclPermission)
                 axios.post('http://localhost:8002/aclPermission/createOrUpdate', {
-                    params: {
-                        "aclPermission":this.aclPermission
-                    }
+                    "id": this.aclPermission.id,
+                    "pid": this.aclPermission.pid,
+                    "pName": this.aclPermission.pName,
+                    "name": this.aclPermission.name,
+                    "type": this.aclPermission.type,
+                    "permissionValue": this.aclPermission.permissionValue,
+                    "path": this.aclPermission.path,
+                    "component": this.aclPermission.component,
+                    "icon": this.aclPermission.icon,
+                    "status": this.aclPermission.status
                 }).then((res) => {
                     var data = res.data;
                     if (data.code == "20000") {
@@ -176,7 +194,7 @@
             remove(node) {
                 axios.get('http://localhost:8002/classes', {
                     params: {
-                        "id":node.id,
+                        "id": node.id,
                     }
                 }).then((res) => {
                     var data = res.data;
@@ -189,6 +207,7 @@
                         this.$message.error(data.message);
                     }
                     this.getData();
+                    this.visible = false;
                 })
             },
         },

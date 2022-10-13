@@ -27,7 +27,7 @@ public class AclPermissionServiceImpl implements AclPermissionService {
                 for (AclPermissionDto child : aclPermissionDto.getChildren()) {
                     if (child.getChildren().size()!=0){
                         for (AclPermissionDto childChild : child.getChildren()) {
-                            aclPermissionDto.setChildren(null);
+                            childChild.setChildren(null);
                         }
                     }else child.setChildren(null);
                 }

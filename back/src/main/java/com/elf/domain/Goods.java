@@ -16,8 +16,6 @@ public class Goods {
     private String goodsNo;
     private String goodsImg;
     private String goodsDesc;
-    private Integer goodsSum;
-    private Integer goodsSold;
     private Double goodsPrice;
     private Integer pv;
 
