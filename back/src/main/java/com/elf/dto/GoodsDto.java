@@ -16,8 +16,6 @@ public class GoodsDto {
     private String goodsName;
     private String goodsImg;
     private String goodsIntro;
-    private Integer goodsSum;
-    private Integer goodsSold;
     private Double goodsPrice;
     private Integer bizId;
     private Integer state;
