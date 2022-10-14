@@ -16,22 +16,8 @@
                 <el-button type="primary" icon="el-icon-circle-plus" @click="handleAdd">添加</el-button>
             </div>
         </el-col>
-        <el-col :span="3">
-            <div class="grid-content bg-purple">
-                <el-button type="primary" icon="el-icon-delete">批量删除</el-button>
-            </div>
-        </el-col>
-        <el-col :span="6">
-            <div class="demo-input-suffix">
-                <el-input
-                        placeholder="请输入内容"
-                        v-model="key">
-                </el-input>
-            </div>
-        </el-col>
-        <el-button type="primary" icon="el-icon-search" @click="getData">查询</el-button>
     </el-row>
-    <el-table :data="tableData" style="width: 100%"  height="550" border>
+    <el-table :data="table.tableData" style="width: 100%"  height="550" border>
         <el-table-column
                 type="selection"
                 width="55">
@@ -41,49 +27,39 @@
                 <span style="margin-left: 10px">{{ scope.row.id }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="商品名" width="180">
+        <el-table-column label="账号" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsName }}</span>
+                <span style="margin-left: 10px">{{ scope.row.username }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="商品图片" width="180">
+        <el-table-column label="昵称" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsImg }}</span>
+                <span style="margin-left: 10px">{{ scope.row.nickName }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="商品简介" width="180">
+        <el-table-column label="头像" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsIntro }}</span>
+                <span style="margin-left: 10px">{{ scope.row.salt }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="商品类型" width="180">
+        <el-table-column label="用户签名" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.gtype.typeName }}</span>
+                <span style="margin-left: 10px">{{ scope.row.token }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="商品数量" width="180">
+        <el-table-column label="用户角色" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsSum }}</span>
+                <span style="margin-left: 10px">{{ scope.row.token }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="商品已销售" width="180">
+        <el-table-column label="更新时间" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsSold }}</span>
+                <span style="margin-left: 10px">{{ scope.row.gmtModified }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="商品价格" width="180">
+        <el-table-column label="创建时间" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsPrice }}</span>
-            </template>
-        </el-table-column>
-        <el-table-column label="商品状态" width="180">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.state }}</span>
-            </template>
-        </el-table-column>
-        <el-table-column label="商品卖家" width="180">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.biz.bizName }}</span>
+                <span style="margin-left: 10px">{{ scope.row.gmtCreate }}</span>
             </template>
         </el-table-column>
 
@@ -119,53 +95,45 @@
     <el-pagination
             background
             layout="prev, pager, next"
-            :page-size="pageSize"
-            :total="totalNums"
-            :current-page="currentPage"
+            :page-size="table.pageSize"
+            :total="table.totalNums"
+            :current-page="table.currentPage"
             @current-change="changepage"
     >
     </el-pagination>
-
-    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
-        <el-form :model="goods">
-            <el-form-item label="商品名" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsName" autocomplete="off"></el-input>
+    <el-dialog :title="userDialog.dialogTitle" :visible.sync="userDialog.dialogFormVisible">
+        <el-form :model="aclUser">
+            <el-form-item label="账号" :label-width="userDialog.formLabelWidth">
+                <el-input v-model="aclUser.username" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="商品简介" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsIntro" autocomplete="off"></el-input>
+            <el-form-item label="昵称" :label-width="userDialog.formLabelWidth">
+                <el-input v-model="aclUser.nickName" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="商品类型" :label-width="formLabelWidth">
-                <el-cascader
-                        v-model="createOrUpdate.gtypeValue"
-                        :options="createOrUpdate.gtypeOptions"
-                        :value="createOrUpdate.gtypeOptions.id"
-                        :label="createOrUpdate.gtypeOptions.typeName"
-                ></el-cascader>
+            <el-form-item label="头像" :label-width="userDialog.formLabelWidth">
+                <el-input v-model="aclUser.salt" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="商家" :label-width="formLabelWidth">
-                <el-cascader
-                    v-model="createOrUpdate.bizValue"
-                    :options="createOrUpdate.bizOptions"></el-cascader>
-<!--                <el-option-->
-<!--                        v-for="item in bizOptions"-->
-<!--                        :key="item.id"-->
-<!--                        :label="item.bizName"-->
-<!--                        :value="item.id">-->
-<!--                </el-option>-->
-            </el-form-item>
-            <el-form-item label="商品数量" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsSum" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="商品价格" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsPrice" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="商品封面" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsImg" autocomplete="off"></el-input>
+            <el-form-item label="用户角色" :label-width="userDialog.formLabelWidth">
+                <el-input v-model="aclUser.username" autocomplete="off"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button @click="userDialog.dialogFormVisible = false">取 消</el-button>
             <el-button type="primary" @click="saveOrCreate">确 定</el-button>
+        </div>
+    </el-dialog>
+    <el-dialog :title="permissionDialog.dialogTitle" :visible.sync="permissionDialog.dialogFormVisible">
+        <el-tree
+                :data="permissionDialog.permissionList"
+                show-checkbox
+                default-expand-all
+                node-key="id"
+                ref="setPermissionTree"
+                highlight-current
+                :props="permissionDialog.defaultProps">
+        </el-tree>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="permissionDialog.dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="changeUserPermission">确 定</el-button>
         </div>
     </el-dialog>
 </div>
@@ -176,162 +144,96 @@
 <script src="../../../assets/css/elementui/elementui.js"></script>
 <script src="../../../assets/js/axios.js"></script>
 <script>
-    var goods={
+    var aclUser={
         id:null,
-        goodsName:'',
-        goodsIntro:'',
-        gtypeId:null,
-        bizId:null,
-        goodsSum:0,
-        goodsPrice:0,
-        goodsImg:'',
+        username:"",
+        nickName:"",
+        salt:"",
+        roleId:"",
     }
-    var createOrUpdate={
-        gtypeOptions:[],
-        bizOptions:[],
-        gtypeValue:[],
-        bizValue:[],
-    }
-    var data = {
+    var table={
         tableData: [],
-        createOrUpdate:createOrUpdate,
+        permissionList:[],
+        defaultProps: {
+            children: 'children',
+            label: 'label'
+        },
         totalNums: 0,
         pageSize: 10,
         currentPage: 1,
-        key: '',
+    }
+    var userDialog={
         dialogFormVisible: false,
         dialogTitle: '',
-        goods:goods,
         formLabelWidth: '120px'
+    }
+    var permissionDialog={
+        permissionList: [],
+        dialogFormVisible: false,
+        dialogTitle: '修改权限',
+        defaultProps: {
+            children: 'children',
+            label: 'label'
+        },
+    }
+    var data = {
+        table:table,
+        userDialog:userDialog,
+        aclUser:aclUser,
+        aclUser_permission:[],
     }
     var app = new Vue({
         el: "#tb",
         data: data,
         created() {
             this.getData();
-            this.getGoodsOption();
         },
         methods: {
             getData() {
-                axios.get('http://localhost:8002/goods/getGoodsByPage', {
+                //初始化当前页面
+                axios.get('http://localhost:8002/aclUser/getPageList', {
                     params: {
-                        'pageSize': this.pageSize,
-                        'pageNum': this.currentPage,
-                        'key': this.key,
+                        'pageSize': this.table.pageSize,
+                        'pageNum': this.table.currentPage,
                     }
                 }).then((res) => {
                     var data = res.data;
                     console.log(res)
-                    if (data.code == "20000") {
-                        var pageUtils = data.data.goodsPage;
-                        this.tableData = pageUtils.list;
+                    if (data.success) {
+                        var pageUtils = data.data.aclUserPage;
+                        this.table.tableData = pageUtils.list;
                         console.log(this.tableData)
-                        this.totalNums = pageUtils.totalCount;
-                        this.pageSize = pageUtils.pageSize;
-                        this.currentPage = pageUtils.currPage;
+                        this.table.totalNums = pageUtils.total;
+                        this.table.pageSize = pageUtils.pageSize;
+                        this.table.currentPage = pageUtils.pageNum;
                     } else {
                         this.changepage(this.currentPage - 1)
                     }
                 })
 
             },
-            changepage(currentPage) {
-                this.currentPage = currentPage;
-                this.getData();
+            handleAdd(){
+                //    初始化增加的dialog
             },
-            handleEdit(row) {
-                goods.id = row.id
-                goods.goodsName=row.goodsName
-                goods.goodsIntro=row.goodsIntro
-                goods.gtypeId=row.gtypeId
-                goods.bizId=row.bizId
-                goods.goodsSum=row.goodsSum
-                goods.goodsPrice=row.goodsPrice
-                goods.goodsImg=row.goodsImg
-                this.dialogTitle = '编辑';
-                this.dialogFormVisible = true
+            handleEdit(row){
+                //    初始化修改的dialog
             },
-            getGoodsOption(){
-                axios.all([
-                    axios.get('http://localhost:8002/biz/getAll'),
-                    axios.get('http://localhost:8002/gtype/getAll')
-                ]).then(
-                    axios.spread((bizOptions,gtypeOptions)=>{
-                        var bizData = bizOptions.data
-                        var gtypeData = gtypeOptions.data
-                        console.log(bizData)
-                        console.log(gtypeData)
-                        if (bizData.success){
-                            this.createOrUpdate.bizOptions=bizData.data.bizOptions
-                        }else {
-                            alert(bizData.message)
-                        }
-                        if (gtypeData.success){
-                            this.createOrUpdate.gtypeOptions=gtypeData.data.gtypeOptions
-                        }else {
-                            alert(gtypeData.message)
-                        }
-                    })
-                )
+            saveOrCreate(){
+                //    添加或修改
+                //    关闭dialog
             },
-            getGoodsValue(){
-
+            handleDelete(row){
+                //    table的删除
             },
-            handleAdd() {
-                goods.id = null
-                goods.goodsName=''
-                goods.goodsIntro=''
-                goods.gtypeId=null
-                goods.bizId=null
-                goods.goodsSum=0
-                goods.goodsPrice=0
-                goods.goodsImg=''
-                createOrUpdate.gtypeValue=[]
-                createOrUpdate.bizValue=[]
-                this.dialogTitle = '添加';
-                this.dialogFormVisible = true
+            getPermissionList(id){
+                // this.$refs.setPermissionTree.setCheckedKeys([3]);
             },
-            saveOrCreate() {
-                axios.get('http://localhost:8888/classes', {
-                    params: {
-                        'method': 'saveOrCreate',
-                        'id': classes.id,
-                        'classes_name': classes.classes_name,
-                        'college_id': classes.college_id,
-                    }
-                }).then((res) => {
-                    var data = res.data;
-                    if (data.code == "20000") {
-                        this.$message({
-                            message: data.message,
-                            type: 'success'
-                        });
-                    } else {
-                        this.$message.error(data.message);
-                    }
-                    this.dialogFormVisible = false
-                    this.getData();
-                })
+            changeUserPermission(){
+                //    修改权限
             },
-            handleDelete(row) {
-                axios.get('http://localhost:8888/classes', {
-                    params: {
-                        'method': 'delete',
-                        'id': row.id,
-                    }
-                }).then((res) => {
-                    var data = res.data;
-                    if (data.code == "20000") {
-                        this.$message({
-                            message: data.message,
-                            type: 'success'
-                        });
-                    } else {
-                        this.$message.error(data.message);
-                    }
-                    this.getData();
-                })
-            },
+            changepage(){
+                //    分页
+            }
         },
     });
 </script>

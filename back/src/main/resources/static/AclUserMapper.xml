@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elf.mapper.AclUserMapper">
+
+<!--
+    Integer insertAclUser(AclUser aclUser);
+
+    Integer updateAclUser(AclUser aclUser);
+    -->
+    <insert id="insertAclUser" parameterType="AclUser">
+        insert into acl_user (id, username, password, nick_name, salt, token, is_deleted, gmt_create, gmt_modified) VALUES
+        (#{id},#{username},#{password},#{nickName},#{salt},#{token},#{isDelete},#{gmtCreate},#{gmtModified})
+    </insert>
+
+    <update id="updateAclUser" parameterType="AclUser">
+        update acl_user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nickname = #{nickName},
+            </if>
+            <if test="salt != null and salt != ''">
+                salt = #{salt},
+            </if>
+            <if test="token != null and token != ''">
+                token = #{token},
+            </if>
+            <if test="gmtModified != null and gmtModified != ''">
+                gmt_modified = #{gmtModified},
+            </if>
+        </set>
+            where id = #{id}
+    </update>
+
+</mapper>

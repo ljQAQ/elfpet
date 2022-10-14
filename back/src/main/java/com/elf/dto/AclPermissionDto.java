@@ -22,6 +22,6 @@ public class AclPermissionDto {
     private Integer  isDeleted;
     private Date gmtCreate;
     private Date gmtModified;
-
+    private String pid;
     private List<AclPermissionDto> children;
 }
