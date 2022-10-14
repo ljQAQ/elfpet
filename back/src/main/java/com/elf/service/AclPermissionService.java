@@ -5,7 +5,7 @@ import com.elf.domain.AclPermission;
 
 public interface AclPermissionService {
 
-    public Result getTreeList();
+    public Result getTreeList(String pid);
 
     public Result createOrUpdate(AclPermission aclPermission);
 }

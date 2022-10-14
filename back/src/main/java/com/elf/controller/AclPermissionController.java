@@ -16,8 +16,8 @@ public class AclPermissionController {
     AclPermissionService aclPermissionService;
 
     @GetMapping("/getTreeList")
-    public Result getTreeList(){
-        return aclPermissionService.getTreeList();
+    public Result getTreeList(String pid){
+        return aclPermissionService.getTreeList(pid);
     }
     @GetMapping("/deleteById")
     public Result deleteById(){

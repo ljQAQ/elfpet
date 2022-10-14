@@ -119,11 +119,12 @@
             getData() {
                 axios.get('http://localhost:8002/aclPermission/getTreeList', {
                     params: {
+                        "pid":"0"
                     }
                 }).then((res) => {
                     var data = res.data;
                     console.log(res)
-                    if (data.code == "20000") {
+                    if (data.success) {
                         this.tableData = data.data.aclPermissionOptions;
                     } else {
                         this.$message.error(data.message);
@@ -176,7 +177,7 @@
                     "status":this.aclPermission.status
                 }).then((res) => {
                     var data = res.data;
-                    if (data.code == "20000") {
+                    if (data.success) {
                         this.$message({
                             message: data.message,
                             type: 'success'
@@ -195,7 +196,7 @@
                     }
                 }).then((res) => {
                     var data = res.data;
-                    if (data.code == "20000") {
+                    if (data.success) {
                         this.$message({
                             message: data.message,
                             type: 'success'

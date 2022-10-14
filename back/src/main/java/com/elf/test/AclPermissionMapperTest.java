@@ -16,7 +16,7 @@ public class AclPermissionMapperTest {
     }
     @Test
     public void getListTest(){
-        System.out.println(aclPermissionMapper.getAll());
+//        System.out.println(aclPermissionMapper.getAll("0"));
     }
     @Test
     public void add() throws InterruptedException {

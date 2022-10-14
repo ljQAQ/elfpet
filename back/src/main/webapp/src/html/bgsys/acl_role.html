@@ -18,10 +18,6 @@
         </el-col>
     </el-row>
     <el-table :data="table.tableData" style="width: 100%"  height="550" border>
-        <el-table-column
-                type="selection"
-                width="55">
-        </el-table-column>
         <el-table-column label="ID" width="70">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.id }}</span>
@@ -47,8 +43,10 @@
                     placement="left"
                     width="400"
                     trigger="click">
-                <el-tree ref="showPermission" :data="table.permissionList" :props="table.defaultProps" @node-click="getPermissionList(scope.row.id)"></el-tree>
-                <el-button slot="reference">查看权限</el-button>
+                <el-tree ref="showPermission"
+                         :data="permissionList"
+                         :props="permissionDialog.defaultProps"></el-tree>
+                <el-button slot="reference" @clicl="">查看权限</el-button>
             </el-popover>
             <el-button @click="setPermission(scope.row.id)">修改权限</el-button>
         </el-table-column>
@@ -145,11 +143,6 @@
     }
     var table={
         tableData: [],
-        permissionList:[],
-        defaultProps: {
-            children: 'children',
-            label: 'label'
-        },
         totalNums: 0,
         pageSize: 10,
         currentPage: 1,
@@ -157,10 +150,10 @@
     var roleDialog={
         dialogFormVisible: false,
         dialogTitle: '',
-        formLabelWidth: '120px'
+        formLabelWidth: '120px',
+        permissionList:[],
     }
     var permissionDialog={
-        permissionList: [],
         dialogFormVisible: false,
         dialogTitle: '修改权限',
         defaultProps: {
@@ -172,7 +165,7 @@
         table:table,
         roleDialog:roleDialog,
         aclRole:aclRole,
-        aclRole_permission:[],
+        permissionList:[],
     }
     var app = new Vue({
         el: "#tb",
@@ -183,35 +176,68 @@
         methods: {
             getData() {
                 //初始化当前页面
-                axios.get('http://localhost:8002/aclRole/getPageList', {
+                axios.all([
+                    axios.get('http://localhost:8002/aclRole/getPageList',{
+                        params:{'pageSize': this.table.pageSize,
+                            'pageNum': this.table.currentPage
+                        }}),
+                    axios.get('http://localhost:8002/aclPermission/getTreeList',{
+                        params:{
+                            "pid":'0'
+                        }})
+                ]).then(
+                    axios.spread((roleList,permissionList)=>{
+                        var rList = roleList.data
+                        var pList = permissionList.data
+                        console.log(rList)
+                        console.log(pList)
+                        if (rList.success){
+                            this.table.tableData=rList.data.aclPermissionOptions
+                            this.table.totalNums = rList.data.total;
+                            this.table.pageSize = rList.data.pageSize;
+                            this.table.currentPage = rList.data.pageNum;
+                        }else {
+                            this.changepage(this.currentPage - 1)
+                        }
+                        if (pList.success){
+                            this.permissionList=pList.data.aclPermissionOptions
+                        }else {
+                            this.$message.error(pList.message);
+                        }
+                    })
+                )
+            },
+            handleAdd(){
+                this.aclRole.id=null
+                this.aclRole.roleName=""
+                this.aclRole.remark=""
+                this.roleDialog.dialogTitle='添加'
+                this.roleDialog.dialogFormVisible=true
+
+            },
+            handleEdit(row){
+                this.aclRole.id=row.id
+                this.aclRole.roleName=row.roleName
+                this.aclRole.remark=row.remark
+                this.roleDialog.dialogTitle='修改'
+                this.roleDialog.dialogFormVisible=true
+
+            },
+            saveOrCreate(){
+            //    添加或修改
+                axios.post('http://localhost:8002/aclRole/createOrUpdate', {
                     params: {
-                        'pageSize': this.table.pageSize,
-                        'pageNum': this.table.currentPage,
+
                     }
                 }).then((res) => {
                     var data = res.data;
                     console.log(res)
                     if (data.success) {
-                        var pageUtils = data.data.aclRolePage;
-                        this.table.tableData = pageUtils.list;
-                        console.log(this.tableData)
-                        this.table.totalNums = pageUtils.total;
-                        this.table.pageSize = pageUtils.pageSize;
-                        this.table.currentPage = pageUtils.pageNum;
+
                     } else {
-                        this.changepage(this.currentPage - 1)
+
                     }
                 })
-
-            },
-            handleAdd(){
-            //    初始化增加的dialog
-            },
-            handleEdit(row){
-            //    初始化修改的dialog
-            },
-            saveOrCreate(){
-            //    添加或修改
             //    关闭dialog
             },
             handleDelete(row){
@@ -219,6 +245,18 @@
             },
             getPermissionList(id){
                 // this.$refs.setPermissionTree.setCheckedKeys([3]);
+                axios.get('http://localhost:8002/aclPermission/getTreeList', {
+                    params: {
+                        "pid":id,
+                    }
+                }).then((res) => {
+                    var data = res.data;
+                    if (data.success) {
+
+                    } else {
+
+                    }
+                })
             },
             changeRolePermission(){
             //    修改权限

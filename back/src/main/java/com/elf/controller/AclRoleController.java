@@ -1,6 +1,7 @@
 package com.elf.controller;
 
 import com.elf.commonutils.Result;
+import com.elf.domain.AclRole;
 import com.elf.service.AclRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,5 +18,9 @@ public class AclRoleController {
     @GetMapping("/getPageList")
     public Result getPageList(Integer pageNum,Integer pageSize){
         return aclRoleService.gettPageList(pageNum,pageSize);
+    }
+    @GetMapping("/createOrUpdate")
+    public Result createOrUpdate(AclRole aclRole){
+        return null;
     }
 }

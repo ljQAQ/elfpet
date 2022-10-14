@@ -20,8 +20,8 @@ public class AclPermissionServiceImpl implements AclPermissionService {
     AclPermissionMapper aclPermissionMapper;
 
     @Override
-    public Result getTreeList() {
-        List<AclPermissionDto> all = aclPermissionMapper.getAll();
+    public Result getTreeList(String pid) {
+        List<AclPermissionDto> all = aclPermissionMapper.getTreeList(pid);
         for (AclPermissionDto aclPermissionDto : all) {
             if (aclPermissionDto.getChildren().size()!=0){
                 for (AclPermissionDto child : aclPermissionDto.getChildren()) {

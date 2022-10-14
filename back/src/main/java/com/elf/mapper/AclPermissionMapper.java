@@ -17,7 +17,7 @@ public interface AclPermissionMapper {
 
     List<AclPermissionDto> getChild(Integer id);
 
-    List<AclPermissionDto> getAll();
+    List<AclPermissionDto> getTreeList(String pid);
 
     Integer addPermission(AclPermission aclPermission);
 

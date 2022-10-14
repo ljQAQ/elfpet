@@ -10,16 +10,14 @@
                     ofType="AclPermissionDto"
                     column="id"
                     javaType="java.util.ArrayList"
-                    select="com.elf.mapper.AclPermissionMapper.getChild"
+                    select="com.elf.mapper.AclPermissionMapper.getTreeList"
         />
     </resultMap>
 
-    <select id="getAll" resultMap="TreeResultAclPermission">
-        select * from acl_permission where pid = 0
-    </select>
 
-    <select id="getChild" resultMap="TreeResultAclPermission" parameterType="String">
-        select * from acl_permission where pid = #{id}
+
+    <select id="getTreeList" resultMap="TreeResultAclPermission" parameterType="String">
+        select * from acl_permission where pid = #{arg0}
     </select>
 
     <insert id="addPermission" parameterType="AclPermission">
