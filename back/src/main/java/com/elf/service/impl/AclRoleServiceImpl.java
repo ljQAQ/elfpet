@@ -29,8 +29,6 @@ public class AclRoleServiceImpl implements AclRoleService {
             return Result.error().message("暂无数据");
         }
         PageInfo<AclRole> pageInfo = new PageInfo<>(aclRoles);
-//        System.out.println(pageInfo);
-//        PageUtils pageUtils = new PageUtils(pageInfo.getList(),(int)pageInfo.getTotal(),pageSize,pageNum);
         return Result.ok().data("aclRolePage",pageInfo);
 
     }
