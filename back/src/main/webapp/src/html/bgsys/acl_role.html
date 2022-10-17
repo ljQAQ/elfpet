@@ -38,17 +38,28 @@
                 <span style="margin-left: 10px">{{ scope.row.remark }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="权限" width="250">
-            <el-popover
-                    placement="left"
-                    width="400"
-                    trigger="click">
-                <el-tree ref="showPermission"
-                         :data="permissionList"
-                         :props="permissionDialog.defaultProps"></el-tree>
-                <el-button slot="reference" @clicl="">查看权限</el-button>
-            </el-popover>
-            <el-button @click="setPermission(scope.row.id)">修改权限</el-button>
+        <el-table-column label="权限" width="120">
+            <template slot-scope="scope">
+                <el-popover
+                        placement="left"
+                        width="400"
+                        trigger="click">
+                    <div style="text-align: right; margin: 0">
+                        <el-tree
+                                :data="permissionList"
+                                show-checkbox
+                                default-expand-all
+                                node-key="id"
+                                ref="tree"
+                                highlight-current
+                                :props="defaultProps">
+                        </el-tree>
+                        <el-button type="primary" @click="changeRolePermission">修改权限</el-button>
+                    </div>
+
+                    <el-button slot="reference" @click="setPermissionList(scope.row.id)">查看权限</el-button>
+                </el-popover>
+            </template>
         </el-table-column>
         <el-table-column label="更新时间" width="180">
             <template slot-scope="scope">
@@ -113,21 +124,6 @@
             <el-button type="primary" @click="saveOrCreate">确 定</el-button>
         </div>
     </el-dialog>
-    <el-dialog :title="permissionDialog.dialogTitle" :visible.sync="permissionDialog.dialogFormVisible">
-        <el-tree
-                :data="permissionDialog.permissionList"
-                show-checkbox
-                default-expand-all
-                node-key="id"
-                ref="setPermissionTree"
-                highlight-current
-                :props="permissionDialog.defaultProps">
-        </el-tree>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="permissionDialog.dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="changeRolePermission">确 定</el-button>
-        </div>
-    </el-dialog>
 </div>
 
 </body>
@@ -153,19 +149,15 @@
         formLabelWidth: '120px',
         permissionList:[],
     }
-    var permissionDialog={
-        dialogFormVisible: false,
-        dialogTitle: '修改权限',
-        defaultProps: {
-            children: 'children',
-            label: 'label'
-        },
-    }
     var data = {
         table:table,
         roleDialog:roleDialog,
         aclRole:aclRole,
         permissionList:[],
+        defaultProps: {
+            children: 'children',
+            label: 'label'
+        },
     }
     var app = new Vue({
         el: "#tb",
@@ -189,18 +181,18 @@
                     axios.spread((roleList,permissionList)=>{
                         var rList = roleList.data
                         var pList = permissionList.data
-                        console.log(rList)
-                        console.log(pList)
                         if (rList.success){
-                            this.table.tableData=rList.data.aclPermissionOptions
-                            this.table.totalNums = rList.data.total;
-                            this.table.pageSize = rList.data.pageSize;
-                            this.table.currentPage = rList.data.pageNum;
+                            this.table.tableData=rList.data.aclRolePage.list
+                            console.log(rList.data.aclRolePage.list)
+                            this.table.totalNums = rList.data.aclRolePage.total;
+                            this.table.pageSize = rList.data.aclRolePage.pageSize;
+                            this.table.currentPage = rList.data.aclRolePage.pageNum;
                         }else {
                             this.changepage(this.currentPage - 1)
                         }
                         if (pList.success){
                             this.permissionList=pList.data.aclPermissionOptions
+                            console.log(pList.data.aclPermissionOptions)
                         }else {
                             this.$message.error(pList.message);
                         }
@@ -243,13 +235,14 @@
             handleDelete(row){
             //    table的删除
             },
-            getPermissionList(id){
-                // this.$refs.setPermissionTree.setCheckedKeys([3]);
-                axios.get('http://localhost:8002/aclPermission/getTreeList', {
+            setPermissionList(id){
+                // this.$refs.tree.setCheckedKeys([1665544024777]);
+                axios.get('http://localhost:8002/aclRolePermission/getPermissionIdList', {
                     params: {
-                        "pid":id,
+                        "roleId":id,
                     }
                 }).then((res) => {
+                    console.log("setPermissionList")
                     var data = res.data;
                     if (data.success) {
 
@@ -260,6 +253,8 @@
             },
             changeRolePermission(){
             //    修改权限
+                console.log(this.$refs.tree.getCheckedNodes());
+                console.log(this.$refs.tree.getCheckedKeys());
             },
             changepage(){
             //    分页

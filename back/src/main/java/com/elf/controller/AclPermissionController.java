@@ -19,6 +19,10 @@ public class AclPermissionController {
     public Result getTreeList(String pid){
         return aclPermissionService.getTreeList(pid);
     }
+    @GetMapping("/")
+    public Result getTreeListByRoleId(String id){
+        return aclPermissionService.getTreeListByRoleId(id);
+    }
     @GetMapping("/deleteById")
     public Result deleteById(){
         return null;

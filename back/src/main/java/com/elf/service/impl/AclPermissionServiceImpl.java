@@ -55,4 +55,9 @@ public class AclPermissionServiceImpl implements AclPermissionService {
         }
 
     }
+
+    @Override
+    public Result getTreeListByRoleId(String id) {
+        return null;
+    }
 }

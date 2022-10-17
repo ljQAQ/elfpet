@@ -8,4 +8,7 @@ public interface AclPermissionService {
     public Result getTreeList(String pid);
 
     public Result createOrUpdate(AclPermission aclPermission);
+
+    Result getTreeListByRoleId(String id);
+
 }

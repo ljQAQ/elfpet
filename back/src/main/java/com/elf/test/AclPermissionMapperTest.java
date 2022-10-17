@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class AclPermissionMapperTest {
     private static AclPermissionMapper aclPermissionMapper;
@@ -28,6 +29,6 @@ public class AclPermissionMapperTest {
     }
     @Test
     public void set(){
-
+        System.out.println(UUID.randomUUID());
     }
 }
