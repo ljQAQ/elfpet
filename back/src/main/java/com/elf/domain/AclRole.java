@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,8 +15,8 @@ public class AclRole {
     private String roleName;
     private String roleCode;
     private String remark;
-    private String isDeleted;
-    private String gmtCreate;
-    private String gmtModified;
+    private Integer isDeleted;
+    private Date gmtCreate;
+    private Date gmtModified;
 
 }

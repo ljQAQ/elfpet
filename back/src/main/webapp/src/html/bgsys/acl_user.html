@@ -39,7 +39,10 @@
         </el-table-column>
         <el-table-column label="头像" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.salt }}</span>
+                <el-image
+                        style="width: 100px; height: 100px"
+                        :src="scope.row.salt"
+                        fit="fill"></el-image>
             </template>
         </el-table-column>
         <el-table-column label="用户签名" width="180">
@@ -49,7 +52,7 @@
         </el-table-column>
         <el-table-column label="用户角色" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.token }}</span>
+                <span style="margin-left: 10px">{{ scope.row.roleId }}</span>
             </template>
         </el-table-column>
         <el-table-column label="更新时间" width="180">
@@ -113,27 +116,20 @@
                 <el-input v-model="aclUser.salt" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="用户角色" :label-width="userDialog.formLabelWidth">
-                <el-input v-model="aclUser.username" autocomplete="off"></el-input>
+                <el-select v-model="aclUser.roleId" placeholder="请选择">
+                    <el-option
+                            v-for="item in userDialog.roleList"
+                            :key="item.id"
+                            :label="item.roleName"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+<!--                <el-input v-model="aclUser.roleId" autocomplete="off"></el-input>-->
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="userDialog.dialogFormVisible = false">取 消</el-button>
             <el-button type="primary" @click="saveOrCreate">确 定</el-button>
-        </div>
-    </el-dialog>
-    <el-dialog :title="permissionDialog.dialogTitle" :visible.sync="permissionDialog.dialogFormVisible">
-        <el-tree
-                :data="permissionDialog.permissionList"
-                show-checkbox
-                default-expand-all
-                node-key="id"
-                ref="setPermissionTree"
-                highlight-current
-                :props="permissionDialog.defaultProps">
-        </el-tree>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="permissionDialog.dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="changeUserPermission">确 定</el-button>
         </div>
     </el-dialog>
 </div>
@@ -153,34 +149,20 @@
     }
     var table={
         tableData: [],
-        permissionList:[],
-        defaultProps: {
-            children: 'children',
-            label: 'label'
-        },
         totalNums: 0,
         pageSize: 10,
         currentPage: 1,
     }
     var userDialog={
+        roleList:[],
         dialogFormVisible: false,
         dialogTitle: '',
         formLabelWidth: '120px'
-    }
-    var permissionDialog={
-        permissionList: [],
-        dialogFormVisible: false,
-        dialogTitle: '修改权限',
-        defaultProps: {
-            children: 'children',
-            label: 'label'
-        },
     }
     var data = {
         table:table,
         userDialog:userDialog,
         aclUser:aclUser,
-        aclUser_permission:[],
     }
     var app = new Vue({
         el: "#tb",
@@ -191,32 +173,56 @@
         methods: {
             getData() {
                 //初始化当前页面
-                axios.get('http://localhost:8002/aclUser/getPageList', {
-                    params: {
-                        'pageSize': this.table.pageSize,
-                        'pageNum': this.table.currentPage,
-                    }
-                }).then((res) => {
-                    var data = res.data;
-                    console.log(res)
-                    if (data.success) {
-                        var pageUtils = data.data.aclUserPage;
-                        this.table.tableData = pageUtils.list;
-                        console.log(this.tableData)
-                        this.table.totalNums = pageUtils.total;
-                        this.table.pageSize = pageUtils.pageSize;
-                        this.table.currentPage = pageUtils.pageNum;
-                    } else {
-                        this.changepage(this.currentPage - 1)
-                    }
-                })
+                axios.all([
+                    //获取全部管理员用户
+                    axios.get('http://localhost:8002/aclUser/getPageList',{
+                        params:{
+                            'pageSize': this.table.pageSize,
+                            'pageNum': this.table.currentPage
+                        }}),
+                    //获取全部角色
+                    axios.get('http://localhost:8002/aclRole/getPageList')
+                ]).then(
+                    axios.spread((userList,roleList)=>{
+                        var userListData = userList.data
+                        var roleListData = roleList.data
+                        if (userListData.success){
+                            this.table.tableData=userListData.data.aclUserPage.list;
+                            this.table.pageSize=userListData.data.aclUserPage.pageSize
+                            this.table.pageNum=userListData.data.aclUserPage.pageNum
+                        }else {
+                            this.changepage(this.currentPage - 1)
+                        }
+                        if (roleListData.success){
+                            console.log(roleListData.data.aclRoleList)
+                            this.userDialog.roleList=roleListData.data.aclRoleList
 
+                        }else {
+                            this.$message.error(roleListData.message);
+                        }
+                    })
+                )
             },
             handleAdd(){
                 //    初始化增加的dialog
+                this.aclUser.id=null;
+                this.aclUser.    username="";
+                this.aclUser.    nickName="";
+                this.aclUser.    salt="";
+                this.aclUser.    roleId="";
+                this.userDialog.dialogTitle="添加";
+                this.userDialog.dialogFormVisible=true;
             },
             handleEdit(row){
                 //    初始化修改的dialog
+                this.aclUser.id=row.id;
+                this.aclUser.username=row.username;
+                this.aclUser.nickName=row.nickName;
+                this.aclUser.salt=row.salt;
+                this.aclUser.roleId=row.roleId;
+                this.userDialog.dialogTitle="修改";
+                this.userDialog.dialogFormVisible=true;
+
             },
             saveOrCreate(){
                 //    添加或修改
@@ -224,12 +230,6 @@
             },
             handleDelete(row){
                 //    table的删除
-            },
-            getPermissionList(id){
-                // this.$refs.setPermissionTree.setCheckedKeys([3]);
-            },
-            changeUserPermission(){
-                //    修改权限
             },
             changepage(){
                 //    分页

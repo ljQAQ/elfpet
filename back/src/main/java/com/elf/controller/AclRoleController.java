@@ -17,10 +17,10 @@ public class AclRoleController {
 
     @GetMapping("/getPageList")
     public Result getPageList(Integer pageNum,Integer pageSize){
-        return aclRoleService.gettPageList(pageNum,pageSize);
+        return aclRoleService.getPageList(pageNum,pageSize);
     }
     @GetMapping("/createOrUpdate")
     public Result createOrUpdate(AclRole aclRole){
-        return null;
+        return aclRoleService.createOrUpdate(aclRole);
     }
 }

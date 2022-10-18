@@ -1,20 +1,21 @@
 package com.elf.test;
 
-import com.elf.mapper.AclPermissionMapper;
+import com.elf.mapper.AclUserMapper;
 import com.elf.service.AclRoleService;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class AclRoleTest {
+public class AclUserMapperTest {
 
-    private static AclRoleService aclRoleService;
+    private static AclUserMapper aclUserMapper;
     static {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        aclRoleService = context.getBean(AclRoleService.class);
+        aclUserMapper = context.getBean(AclUserMapper.class);
     }
 
     @Test
-    public void getPageList(){
-        aclRoleService.getPageList(0,0);
+    public void get(){
+        System.out.println(aclUserMapper.selectAll());
     }
+
 }
