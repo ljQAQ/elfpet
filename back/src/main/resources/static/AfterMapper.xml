@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njzhenghou.mapper.AfterMapper">
+
+   <select id="findOne" parameterType="String" resultType="AfterSale">
+       select * from aftersale where  order_no=#{orderNo}
+   </select>
+
+    <insert id="addOne" parameterType="AfterSale">
+        insert into aftersale (after_no,order_no,user_num,reason,order_num,after_status,create_time,remark) values(#{aftersale.afterNo},#{aftersale.orderNo},#{aftersale.userName},#{aftersale.reason},
+         #{aftersale.orderNum},#{aftersale.afterStatus},#{aftersale.createTime},#{aftersale.remark})
+    </insert>
+
+    <select id="check" resultType="AfterSale">
+        select  * from   id
+    </select>
+
+    <insert id="update" parameterType="AfterSale">
+       update aftersale
+        <set>
+
+            <if test="reason!=null and reason!=‘’ ">
+                reason = #{reason},
+            </if>
+
+            <if test="remark!=null and remark!=‘’ ">
+                remark = #{remark},
+            </if>
+
+        </set>
+    </insert>
+
+    <insert id="delete" parameterType="AfterSale">
+        delete  from  aftersale where id=#{id}
+    </insert>
+
+</mapper>

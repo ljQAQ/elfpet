@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njzhenghou.mapper.OrderMapper">
+
+   <select id="findOne" parameterType="String" resultType="Order">
+       select * from `order` where  order_no=#{orderNo}
+   </select>
+
+    <insert id="addOne" parameterType="Order">
+        insert into `order`(order_no,order_status,product_count,order_total,address,createtime,paytime,gotime,remark) values(#{order.orderNo},#{order.orderStatus},#{order.productCount},#{order.orderTotal},
+         #{order.address},#{order.createTime},#{order.payTime},#{order.goTime},#{order.remark})
+    </insert>
+
+    <select id="check" resultType="Order">
+        select  * from   `order`
+    </select>
+
+    <insert id="update" parameterType="Order">
+       update order
+        <set>
+
+            <if test="orderStatus!=null and orderStatus!=‘’ ">
+                orderStatus = #{orderStatus},
+            </if>
+
+            <if test="productCount!=null and productCount!=‘’ ">
+                productCount = #{productCount},
+            </if>
+
+            <if test="remark!=null and remark!=‘’ ">
+                remark = #{remark},
+            </if>
+
+        </set>
+    </insert>
+
+    <insert id="delete" parameterType="Order">
+        delete  from  order where id=#{id}
+    </insert>
+
+</mapper>

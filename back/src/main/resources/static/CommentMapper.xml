@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njzhenghou.mapper.CommentMapper">
+
+   <select id="findOne" parameterType="String" resultType="Comment">
+       select * from comment where  id=#{id}
+   </select>
+
+    <insert id="addOne" parameterType="Comment">
+        insert into comment (name,content,createTime,deleteTime) values(#{comment.name},#{comment.content},#{comment.createTime},#{order.orderTotal})
+    </insert>
+
+    <select id="check" resultType="Comment">
+        select  * from   comment
+    </select>
+
+    <insert id="update" parameterType="Comment">
+       update comment
+        <set>
+
+            <if test="content!=null and content!=‘’ ">
+                content = #{content},
+            </if>
+        </set>
+    </insert>
+
+    <insert id="delete" parameterType="Comment">
+        delete  from  comment where id=#{id}
+    </insert>
+
+</mapper>
