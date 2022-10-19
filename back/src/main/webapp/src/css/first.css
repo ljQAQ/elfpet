@@ -1,0 +1,449 @@
+ul{
+	list-style: none;
+}
+
+*{
+	margin:0px;
+	padding:0px;
+}
+a{
+	text-decoration: none;
+	color: black;
+
+}
+div{
+	display: block;
+}
+
+body{
+	color: #333;
+}
+
+.topbar{
+	position: relative;
+	z-index: 30;
+	height: 40px;
+	font-size: 12px;
+	color: #b0b0b0;
+	background-color: #333;
+}
+.topbar a{
+	color: #757575;
+}
+
+.menu-container{
+	width: 1226px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.topbar  .topbar-nav {
+	float: left;
+	height: 40px;
+	line-height: 40px;
+}
+
+.menu-container a{
+	color: #b0b0b0;
+	line-height: 40px;
+	display: inline-block;
+}
+.menu-container .sep {
+	margin: 0 .3em;
+	color: #424242;
+}
+
+.topbar .topbar-download {
+	position: relative;
+}
+.topbar .topbar-download .appcode {
+	position: absolute;
+	top: 40px;
+	left: 50%;
+	width: 124px;
+	height: 148px;
+	background: #fff;
+	margin-left: -55px;
+	text-align: center;
+	font-size: 14px;
+	color: #333;
+	line-height: 1;
+	display: none;
+
+}
+
+.hover_white:hover{
+	color: rgb(255,255,255);
+}
+.topbar-cart:hover .cart-mini{
+	background-color: white;
+	color: rgb(255,103,0);
+
+}
+.appcode>.sj{
+	width: 0px;
+	height: 0px;
+	position: relative;
+	border:10px solid  red;
+	border-color: transparent transparent white transparent;
+	left: 50px;
+	top:-20px;
+
+}
+
+
+.appcode>img {
+	position: relative;
+	top:-20px
+}
+.text{
+	position: relative;
+	top:-20px;
+}
+.topbar .topbar-download img {
+	display: block;
+	margin: 18px auto 12px;
+}
+
+.topbar .topbar-download:hover  .appcode{
+	display: block;
+}
+
+.topbar .topbar-cart {
+	position: relative;
+	float: right;
+	width: 120px;
+	height: 40px;
+	margin-left: 15px;
+	-webkit-transition: all .2s;
+	transition: all .2s;
+	font-size: 12px;
+}
+
+.topbar .cart-mini {
+	position: relative;
+	z-index: 32;
+	display: block;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: #b0b0b0;
+	background: #424242;
+}
+
+
+.topbar .cart-mini {
+	position: relative;
+	z-index: 32;
+	display: block;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: #b0b0b0;
+	background: #424242;
+}
+
+
+.topbar .cart-menu {
+	position: absolute;
+	right: 0;
+	top: 40px;
+	z-index: 31;
+	width: 316px;
+	height: 100px;
+	color: #424242;
+	background: #fff;
+	display: none;
+}
+
+
+.topbar  .topbar-cart:hover  .cart-menu{
+	display: block;
+	border-left: 1px solid grey;
+	border-bottom: 1px solid grey;
+	border-right: 1px solid grey;
+}
+
+.topbar .cart-menu .menu-content {
+	text-align: center;
+	line-height: 100px;
+}
+
+.topbar .cart-menu .loading, .topbar .cart-menu .msg {
+	text-align: center;
+	line-height: 100px;
+}
+
+.topbar .cart-list {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.topbar .topbar-info {
+	position: relative;
+	float: right;
+	height: 40px;
+	line-height: 40px;
+}
+
+.topbar .topbar-info .link {
+	padding: 0 5px;
+	text-align: center;
+}
+
+.topbar .topbar-info .link, .topbar .topbar-info .message, .topbar .topbar-info .sep, .topbar .topbar-info .user {
+	float: left;
+}
+
+
+.bottombar{
+	z-index: 20;
+	height: 100px;
+}
+
+.bottombar-container{
+	width: 1226px;
+	height: 100px;
+	margin-right: auto;
+	margin-left: auto;
+
+}
+
+.bottombar .logo {
+	width: 56px;
+	height: 56px;
+	margin:20px 20px 20px 0px ;
+}
+.logo-container{
+	width:60px;
+	height: 60px
+}
+
+.header-nav{
+	width:850px;
+	float: left;
+	position: absolute;
+}
+
+
+.nav-list{
+	position: relative;
+	z-index: 10;
+	float: left;
+	width: 1100px;
+	height: 88px;
+	margin: 0;
+	padding: 12px 0 0 30px;
+	list-style-type: none;
+	font-size: 16px;
+	right: -100px;
+	top:-60px
+}
+
+.nav-list .nav-item{
+	float: left;
+	width: 90px;
+	height: 88px;
+	line-height: 88px;
+}
+
+.nav-list .nav-item1{
+	text-align: center;
+	float: left;
+	width: 60px;
+	height: 88px;
+	line-height: 88px;
+
+}
+
+.nav-list .nav-item ,.nav-list .nav-item1{
+	position: relative;
+	left: 100px;
+}
+
+
+.nav-item a{
+	display: block;
+}
+
+.nav-item:hover a,.nav-item1:hover a{
+	color: rgb(255,103,0);
+}
+
+.item-child{
+	width: 3000px;
+	height: 280px;
+	display: none;
+	background-color:white;
+	z-index: 20;
+	position: relative;
+	left: -1000px;
+	border-bottom: 1px solid grey;
+	border-top: 1px solid grey;
+}
+
+.nav-item:hover .item-child,.nav-item1:hover .item-child{
+	display: block;
+}
+.nav-item>div{
+	text-align:center ;
+}
+
+.input{
+	height: 35px;
+	position: relative;
+	top : 20px;
+	left: 210px;
+}
+
+.bt{
+	border:1px solid black;
+	background-color: white;
+	position: relative;
+	width: 30px;
+	height:39px ;
+	left:200px;
+	top:20px
+}
+
+.bt:hover{
+	background-color:rgb(255,103,0) ;
+	color: white;
+}
+
+
+.third{
+	width: 1226px;
+	height: 460px;
+	margin: auto;
+}
+
+.third>.left-list-container{
+	height: 460px;
+	width: 234px;
+	background-color: rgb(64,62,63);
+}
+
+.left-list{
+	display: block;
+	position: relative;
+	top: 20px;
+	height: 420px;
+
+}
+
+.third .le{
+	height: 42px;
+	padding-left:15px;
+	padding-right:15px;
+	position: relative;
+}
+
+.third .le>a{
+	color: rgb(255,255,255);
+}
+
+.third>.left-list-container>.left-list>.le:hover{
+	background-color: rgb(255,103,0);
+}
+
+.third a{
+	height: 42px;
+	line-height: 42px;
+	display: block;
+}
+.icon{
+	display: block;
+	float: right;
+	position: relative;
+	top:15px
+}
+
+.right-photo{
+	width: 992px;
+	height: 460px;
+	position: relative;
+	left:234px;
+	top:-460px
+}
+
+
+.bottom-container{
+	width: 1226px;
+	height: 150px;
+	margin:20px auto 0px auto;
+}
+
+.bottom-1{
+	width: 234px;
+	height: 150px;
+	background-color: rgb(95,87,80);
+	float: left;
+}
+
+.bottom-1-container{
+	width: 30%;
+	float: left;
+	margin:3px ;
+	text-align: center;
+	height: 60px;
+
+
+}
+
+.bottom-1 .sp{
+	margin:10px 0px 10px 0px ;
+	float: left;
+	width: 1px;
+	height: 45px;
+	background-color: rgb(102,94,87);
+}
+.bottom-1-container{
+	color: rgb(203,200,198);
+}
+
+.bottom-1-container:hover{
+	color: rgb(255,255,255);
+}
+
+.middle{
+	margin: 0px 10px 0px 10px;
+	width: 60px;
+	height:1px;
+	background-color: rgb(102,94,87);
+	float: left;
+
+}
+
+.top{
+	margin: 5px 10px 0px 10px;
+	width: 60px;
+	height:1px;
+	background-color: rgb(102,94,87);
+	float: left;
+}
+
+
+.last{
+	margin: 5px 10px 0px 10px;
+	width: 60px;
+	height:1px;
+	background-color: rgb(102,94,87);
+	float: left;
+	position: relative;
+	top:-8px
+}
+
+.bottom-2{
+	width: 310px;
+	height: 150px;
+	background-color: green;
+	float: right;
+	margin-left: 20px;
+}
+
+.bottom-2 img{
+	width: 310px;
+	height: 150px;
+}
+

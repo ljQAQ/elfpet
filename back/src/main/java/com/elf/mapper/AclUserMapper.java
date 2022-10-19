@@ -18,10 +18,15 @@ public interface AclUserMapper {
     @Select("select * from acl_user where id = #{id}")
     AclUser selectById(String id);
 
-    Integer insertAclUser(AclUser aclUser);
+    Integer insertAclUser(AclUserDto aclUser);
 
-    Integer updateAclUser(AclUser aclUser);
+    Integer insertAclUserRole(AclUserDto aclUser);
+
+    Integer updateAclUser(AclUserDto aclUser);
 
     @Update("update acl_user set is_delete = 1 where id = #{id}")
     Integer deleteById(String id);
+
+    @Select("select * from acl_user where username = #{arg0}")
+    AclUser getByUsername(String username);
 }

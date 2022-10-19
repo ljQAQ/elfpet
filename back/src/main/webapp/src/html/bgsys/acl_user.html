@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="GBK"/>
+    <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Document</title>
@@ -13,7 +13,7 @@
     <el-row>
         <el-col :span="3">
             <div class="grid-content bg-purple">
-                <el-button type="primary" icon="el-icon-circle-plus" @click="handleAdd">ÃÌº”</el-button>
+                <el-button type="primary" icon="el-icon-circle-plus" @click="handleAdd">Ê∑ªÂä†</el-button>
             </div>
         </el-col>
     </el-row>
@@ -27,17 +27,17 @@
                 <span style="margin-left: 10px">{{ scope.row.id }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="’À∫≈" width="180">
+        <el-table-column label="Ë¥¶Âè∑" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.username }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="Í«≥∆" width="180">
+        <el-table-column label="ÊòµÁß∞" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.nickName }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="Õ∑œÒ" width="180">
+        <el-table-column label="Â§¥ÂÉè" width="180">
             <template slot-scope="scope">
                 <el-image
                         style="width: 100px; height: 100px"
@@ -45,50 +45,52 @@
                         fit="fill"></el-image>
             </template>
         </el-table-column>
-        <el-table-column label="”√ªß«©√˚" width="180">
+        <el-table-column label="Áî®Êà∑Á≠æÂêç" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.token }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="”√ªßΩ«…´" width="180">
+        <el-table-column label="Áî®Êà∑ËßíËâ≤" width="180">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.roleId }}</span>
+                <span style="margin-left: 10px">
+                    {{showRole(scope.row.roleId)}}
+                </span>
             </template>
         </el-table-column>
-        <el-table-column label="∏¸–¬ ±º‰" width="180">
+        <el-table-column label="Êõ¥Êñ∞Êó∂Èó¥" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.gmtModified }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="¥¥Ω® ±º‰" width="180">
+        <el-table-column label="ÂàõÂª∫Êó∂Èó¥" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.gmtCreate }}</span>
             </template>
         </el-table-column>
 
-        <el-table-column fixed="right" label="≤Ÿ◊˜">
+        <el-table-column fixed="right" label="Êìç‰Ωú">
             <template slot-scope="scope">
                 <el-button
                         size="mini"
                         type="primary"
                         icon="el-icon-edit"
                         @click="handleEdit(scope.row)"
-                >±‡º≠
+                >ÁºñËæë
                 </el-button>
                 <el-popconfirm
-                        confirm-button-text='»∑»œ…æ≥˝'
+                        confirm-button-text='Á°ÆËÆ§Âà†Èô§'
                         @confirm="handleDelete(scope.row)"
-                        cancel-button-text='»°œ˚'
+                        cancel-button-text='ÂèñÊ∂à'
                         icon="el-icon-info"
                         icon-color="red"
-                        title="’‚ «“ª∂Œƒ⁄»›»∑∂®…æ≥˝¬£ø"
+                        title="ËøôÊòØ‰∏ÄÊÆµÂÜÖÂÆπÁ°ÆÂÆöÂà†Èô§ÂêóÔºü"
                 >
                     <el-button
                             size="mini"
                             type="danger"
                             slot="reference"
                             icon="el-icon-delete"
-                    >…æ≥˝
+                    >Âà†Èô§
                     </el-button>
                 </el-popconfirm>
 
@@ -106,17 +108,17 @@
     </el-pagination>
     <el-dialog :title="userDialog.dialogTitle" :visible.sync="userDialog.dialogFormVisible">
         <el-form :model="aclUser">
-            <el-form-item label="’À∫≈" :label-width="userDialog.formLabelWidth">
+            <el-form-item label="Ë¥¶Âè∑" :label-width="userDialog.formLabelWidth">
                 <el-input v-model="aclUser.username" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="Í«≥∆" :label-width="userDialog.formLabelWidth">
+            <el-form-item label="ÊòµÁß∞" :label-width="userDialog.formLabelWidth">
                 <el-input v-model="aclUser.nickName" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="Õ∑œÒ" :label-width="userDialog.formLabelWidth">
+            <el-form-item label="Â§¥ÂÉè" :label-width="userDialog.formLabelWidth">
                 <el-input v-model="aclUser.salt" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="”√ªßΩ«…´" :label-width="userDialog.formLabelWidth">
-                <el-select v-model="aclUser.roleId" placeholder="«Î—°‘Ò">
+            <el-form-item label="Áî®Êà∑ËßíËâ≤" :label-width="userDialog.formLabelWidth">
+                <el-select v-model="aclUser.roleId" placeholder="ËØ∑ÈÄâÊã©">
                     <el-option
                             v-for="item in userDialog.roleList"
                             :key="item.id"
@@ -128,15 +130,15 @@
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="userDialog.dialogFormVisible = false">»° œ˚</el-button>
-            <el-button type="primary" @click="saveOrCreate">»∑ ∂®</el-button>
+            <el-button @click="userDialog.dialogFormVisible = false">Âèñ Ê∂à</el-button>
+            <el-button type="primary" @click="saveOrCreate">Á°Æ ÂÆö</el-button>
         </div>
     </el-dialog>
 </div>
 
 </body>
 <script src="../../../assets/js/vue.js"></script>
-<!-- “˝»Î◊Èº˛ø‚ -->
+<!-- ÂºïÂÖ•ÁªÑ‰ª∂Â∫ì -->
 <script src="../../../assets/css/elementui/elementui.js"></script>
 <script src="../../../assets/js/axios.js"></script>
 <script>
@@ -172,15 +174,15 @@
         },
         methods: {
             getData() {
-                //≥ı ºªØµ±«∞“≥√Ê
+                //ÂàùÂßãÂåñÂΩìÂâçÈ°µÈù¢
                 axios.all([
-                    //ªÒ»°»´≤øπ‹¿Ì‘±”√ªß
+                    //Ëé∑ÂèñÂÖ®ÈÉ®ÁÆ°ÁêÜÂëòÁî®Êà∑
                     axios.get('http://localhost:8002/aclUser/getPageList',{
                         params:{
                             'pageSize': this.table.pageSize,
                             'pageNum': this.table.currentPage
                         }}),
-                    //ªÒ»°»´≤øΩ«…´
+                    //Ëé∑ÂèñÂÖ®ÈÉ®ËßíËâ≤
                     axios.get('http://localhost:8002/aclRole/getPageList')
                 ]).then(
                     axios.spread((userList,roleList)=>{
@@ -204,36 +206,59 @@
                 )
             },
             handleAdd(){
-                //    ≥ı ºªØ‘ˆº”µƒdialog
+                //    ÂàùÂßãÂåñÂ¢ûÂä†ÁöÑdialog
                 this.aclUser.id=null;
                 this.aclUser.    username="";
                 this.aclUser.    nickName="";
                 this.aclUser.    salt="";
                 this.aclUser.    roleId="";
-                this.userDialog.dialogTitle="ÃÌº”";
+                this.userDialog.dialogTitle="Ê∑ªÂä†";
                 this.userDialog.dialogFormVisible=true;
             },
             handleEdit(row){
-                //    ≥ı ºªØ–ﬁ∏ƒµƒdialog
+                //    ÂàùÂßãÂåñ‰øÆÊîπÁöÑdialog
                 this.aclUser.id=row.id;
                 this.aclUser.username=row.username;
                 this.aclUser.nickName=row.nickName;
                 this.aclUser.salt=row.salt;
                 this.aclUser.roleId=row.roleId;
-                this.userDialog.dialogTitle="–ﬁ∏ƒ";
+                this.userDialog.dialogTitle="‰øÆÊîπ";
                 this.userDialog.dialogFormVisible=true;
-
             },
             saveOrCreate(){
-                //    ÃÌº”ªÚ–ﬁ∏ƒ
-                //    πÿ±’dialog
+                //    Ê∑ªÂä†Êàñ‰øÆÊîπ
+                axios.post('http://localhost:8002/aclUser/createOrUpdate', {
+                    "id":this.aclUser.id,
+                    "username":this.aclUser.username,
+                    "nickName":this.aclUser.nickName,
+                    "salt":this.aclUser.salt,
+                    "roleId":this.aclUser.roleId,
+                }).then((res) => {
+                    var data = res.data;
+                    if (data.success) {
+                        this.$message({
+                            message: data.message,
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error(data.message);
+                    }
+                    this.userDialog.dialogFormVisible = false
+                    this.getData();
+                })
+                //    ÂÖ≥Èó≠dialog
             },
             handleDelete(row){
-                //    tableµƒ…æ≥˝
+                //    tableÁöÑÂà†Èô§
             },
             changepage(){
-                //    ∑÷“≥
+                //    ÂàÜÈ°µ
+            },
+            showRole(id){
+                var number = this.userDialog.roleList.findIndex((role) => role.id === id);
+                return this.userDialog.roleList[number]['roleName']
             }
+
         },
     });
 </script>

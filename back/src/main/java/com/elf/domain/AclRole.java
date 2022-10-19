@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,5 +19,7 @@ public class AclRole {
     private Integer isDeleted;
     private Date gmtCreate;
     private Date gmtModified;
+
+    private List<AclPermission> permissionList;
 
 }

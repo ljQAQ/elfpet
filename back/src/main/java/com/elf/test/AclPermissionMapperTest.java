@@ -6,7 +6,9 @@ import com.elf.mapper.GTypeMapper;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class AclPermissionMapperTest {
@@ -29,6 +31,11 @@ public class AclPermissionMapperTest {
     }
     @Test
     public void set(){
-        System.out.println(UUID.randomUUID());
+        List<String> ss=new ArrayList<>();
+        ss.add("qwe");
+        ss.add("qwe");
+        String s = ss.toString();
+        s=s.substring(1,s.length()-1);
+        System.out.println(s);
     }
 }

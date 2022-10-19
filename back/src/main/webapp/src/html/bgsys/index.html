@@ -122,7 +122,7 @@
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('classes_list.jsp')"><i
+                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('user.html')"><i
                                     class="fa fa-edit"></i> 用户管理 </a>
                         </li>
                     </ul>
@@ -228,16 +228,18 @@
 </body>
 <script type="text/javascript">
     $(function () {
-        $.ajax({
-            url:'',
-            type:'',
-            data:{
+        var userId = $.session.get("userId");
 
-            },
-            success:function (result) {
-                
-            }
-        })
+        // $.ajax({
+        //     url:'',
+        //     type:'',
+        //     data:{
+        //
+        //     },
+        //     success:function (result) {
+        //
+        //     }
+        // })
     })
     function changeIframe(url) {
         console.log(url)

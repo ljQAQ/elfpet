@@ -20,34 +20,42 @@
         from acl_user u inner join acl_user_role aur on u.id = aur.user_id
     </select>
 
-    <insert id="insertAclUser" parameterType="AclUser">
+    <insert id="insertAclUser" parameterType="AclUserDto">
         insert into acl_user (id, username, password, nick_name, salt, token, is_deleted, gmt_create, gmt_modified) VALUES
         (#{id},#{username},#{password},#{nickName},#{salt},#{token},#{isDelete},#{gmtCreate},#{gmtModified})
     </insert>
 
-    <update id="updateAclUser" parameterType="AclUser">
-        update acl_user
+    <insert id="insertAclUserRole" parameterType="AclUserDto">
+        insert into acl_user_role (id, role_id, user_id, is_deleted, gmt_create, gmt_modified) VALUES
+        (#{id},#{roleId},#{id},#{isDelete},#{gmtCreate},#{gmtModified})
+    </insert>
+
+    <update id="updateAclUser" parameterType="AclUserDto">
+        update acl_user au,acl_user_role aur
         <set>
             <if test="username != null and username != ''">
-                username = #{username},
+                au.username = #{username},
             </if>
             <if test="password != null and password != ''">
-                password = #{password},
+                au.password = #{password},
             </if>
             <if test="nickName != null and nickName != ''">
-                nickname = #{nickName},
+                au.nick_name = #{nickName},
             </if>
             <if test="salt != null and salt != ''">
-                salt = #{salt},
+                au.salt = #{salt},
             </if>
             <if test="token != null and token != ''">
-                token = #{token},
+                au.token = #{token},
             </if>
             <if test="gmtModified != null and gmtModified != ''">
-                gmt_modified = #{gmtModified},
+                au.gmt_modified = #{gmtModified},
+            </if>
+            <if test="roleId != null and roleId != ''">
+                aur.role_id = #{roleId},
             </if>
         </set>
-            where id = #{id}
+            where au.id = aur.user_id and au.id = #{id}
     </update>
 
 </mapper>

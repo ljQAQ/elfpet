@@ -1,26 +1,22 @@
-
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>小精灵宠物店登录界面</title>
 
-<link href="static/css/login.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="static/lib/jquery/1.9.1/jquery.min.js"></script> 
-<script src="static/js/verificationNumbers.js" tppabs="static/js/verificationNumbers.js"></script>
+<link type="text/css" href="./src/css/login.css" rel="stylesheet" >
+<script type="text/javascript" src="./js/jquery-3.4.1.min.js"></script>
+<!--<script src="/src/js/verificationNumbers.js" tppabs="/src/js/verificationNumbers.js"></script>-->
 <style>
 .J_codeimg{z-index:-1;position:absolute;}
 </style>
 <script>
-$(document).ready(function() {
-  //验证码
-  createCode();
-});
+
 </script>
 </head>
 <body>
 <div class="login-box" id="demo">
-   <div class="input-content">
+   <div class="input-content" style="top: 200px;">
      <div class="login_tit">
           <div>
             <i class="tit-bg left"></i>
@@ -28,28 +24,106 @@ $(document).ready(function() {
             <i class="tit-bg right"></i>
           </div>
           <p>ELF  PET</p>
-     </div>    
+     </div>
      <p class="p user_icon">
-       <input type="text" placeholder="账号" autocomplete="off" class="login_txtbx">
-     </p> 
+       <input type="text" placeholder="账号" autocomplete="off" class="login_txtbx" v-model="username">
+     </p>
      <p class="p pwd_icon">
-       <input type="text" placeholder="密码" autocomplete="off" class="login_txtbx">
-     </p>     	
+       <input type="text" placeholder="密码" autocomplete="off" class="login_txtbx" v-model="password">
+     </p>
      <div class="p val_icon">
         <div class="checkcode">
-          <input type="text" id="J_codetext" placeholder="验证码" autocomplete="off" maxlength="4" class="login_txtbx">
-          <canvas class="J_codeimg" id="myCanvas" onclick="createCode()" onselectstart="return false">对不起，您的浏览器不支持canvas，请下载最新版浏览器!</canvas>
+          <input type="text" v-model="inputCode" :placeholder="codePlaceholder" autocomplete="off" maxlength="4" class="login_txtbx">
+          <canvas class="J_codeimg" id="myCanvas"  @click="createCode" onselectstart="return false">对不起，您的浏览器不支持canvas，请下载最新版浏览器!</canvas>
         </div>
-        <a class="ver_btn" onclick="createCode();" onselectstart="return false">看不清，换一张</a>
-      </div>      
+        <a class="ver_btn" @click="createCode" onselectstart="return false">看不清，换一张</a>
+      </div>
       <div class="signup">
-      	  <a class="gv" href="#" onclick="validate()">登&nbsp;&nbsp;录</a>
+      	  <a class="gv" href="#" @click="login">登&nbsp;&nbsp;录</a>
           <a class="gv" href="#">清&nbsp;&nbsp;空</a>
      </div>
   </div>
   <div class="canvaszz"> </div>
-  <canvas id="canvas"></canvas> 
+  <canvas id="canvas"></canvas>
 </div>
+<script src="./assets/js/vue.js"></script>
+<script src="./assets/js/axios.js"></script>
+<script type="text/javascript">
+    var app = new Vue({
+        el:"#demo",
+        data:{
+            code:"",
+            inputCode:"",
+            username:"",
+            password:"",
+            codePlaceholder:"验证码",
+        },
+        created() {
 
+        },
+        mounted() {
+            this.createCode();
+        },
+        methods:{
+            login(){
+
+                if (this.validate()){
+                    axios.get('http://localhost:8002/aclUser/login', {
+                        params: {
+                            "username":this.password,
+                            "password":this.username
+                        }
+                    }).then((res) => {
+                        var data = res.data;
+                        if (data.success) {
+                            window.location.href="src/html/bgsys/index.html?id="+data.data.id;
+                        } else {
+                            this.$message.error(data.message);
+                        }
+                    })
+                }
+            },
+            validate () {
+                var inputCode = this.inputCode.toUpperCase()
+                var codeToUp=this.code.toUpperCase();
+                console.log(inputCode)
+                if(inputCode.length <=0) {
+                    this.codePlaceholder="输入验证码"
+                    this.createCode();
+                    return false;
+                }
+                else if(inputCode !== codeToUp ){
+                    this.codePlaceholder="验证码错误"
+                    this.createCode();
+                    return false;
+                }
+                else {
+                    return true;
+                }
+
+            },
+            createCode(){
+                this.code = "";
+                var codeLength = 4;
+                var selectChar = new Array(1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f','g','h','j','k','l','m','n','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z');
+                for(var i=0;i<codeLength;i++) {
+                    var charIndex = Math.floor(Math.random()*60);
+                    this.code +=selectChar[charIndex];
+                }
+                if(this.code.length !== codeLength){
+                    this.createCode();
+                }
+
+                var c = document.getElementById("myCanvas");
+                var ctx = c.getContext("2d");
+                ctx.clearRect(0,0,1000,1000);
+                ctx.font = "80px 'Microsoft Yahei'";
+                ctx.fillText(this.code,0,100);
+                ctx.fillStyle = "rgba(255,255,255,.9)";
+            }
+        }
+    })
+
+</script>
 </body>
 </html>

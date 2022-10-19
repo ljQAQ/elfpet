@@ -13,4 +13,8 @@
             (#{item.id}, #{item.roleId}, #{item.permissionId}, #{item.isDeleted}, #{item.gmtCreate}, #{item.gmtModified})
         </foreach>
     </insert>
+    <delete id="deleteRolePermission">
+        delete from acl_role_permission where role_id=#{roleId} and permission_id in (${permissionId});
+    </delete>
+
 </mapper>

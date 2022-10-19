@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="GBK"/>
+    <meta charset="UTF-8d"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Document</title>
@@ -13,23 +13,23 @@
     <el-row>
         <el-col :span="3">
             <div class="grid-content bg-purple">
-                <el-button type="primary" icon="el-icon-circle-plus" @click="handleAdd">ÃÌº”</el-button>
+                <el-button type="primary" icon="el-icon-circle-plus" @click="handleAdd">Ê∑ªÂä†</el-button>
             </div>
         </el-col>
         <el-col :span="3">
             <div class="grid-content bg-purple">
-                <el-button type="primary" icon="el-icon-delete">≈˙¡ø…æ≥˝</el-button>
+                <el-button type="primary" icon="el-icon-delete">ÊâπÈáèÂà†Èô§</el-button>
             </div>
         </el-col>
         <el-col :span="6">
             <div class="demo-input-suffix">
                 <el-input
-                        placeholder="«Î ‰»Îƒ⁄»›"
+                        placeholder="ËØ∑ËæìÂÖ•ÂÜÖÂÆπ"
                         v-model="key">
                 </el-input>
             </div>
         </el-col>
-        <el-button type="primary" icon="el-icon-search" @click="getData">≤È—Ø</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="getData">Êü•ËØ¢</el-button>
     </el-row>
     <el-table :data="tableData" style="width: 100%"  height="550" border>
         <el-table-column
@@ -41,76 +41,76 @@
                 <span style="margin-left: 10px">{{ scope.row.id }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="…Ã∆∑±‡∫≈" width="180">
+        <el-table-column label="ÂïÜÂìÅÁºñÂè∑" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.goodsNo }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="…Ã∆∑√˚" width="180">
+        <el-table-column label="ÂïÜÂìÅÂêç" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.goodsName }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="…Ã∆∑Õº∆¨" width="180">
+        <el-table-column label="ÂïÜÂìÅÂõæÁâá" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.goodsImg }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="…Ã∆∑ºÚΩÈ" width="180">
+        <el-table-column label="ÂïÜÂìÅÁÆÄ‰ªã" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.goodsDesc }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="…Ã∆∑¿‡–Õ" width="180">
+        <el-table-column label="ÂïÜÂìÅÁ±ªÂûã" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.gtype.typeName }}</span>
             </template>
         </el-table-column>
 
-        <el-table-column label="…Ã∆∑µ„ª˜¡ø" width="180">
+        <el-table-column label="ÂïÜÂìÅÁÇπÂáªÈáè" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.pv }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="…Ã∆∑º€∏Ò" width="180">
+        <el-table-column label="ÂïÜÂìÅ‰ª∑Ê†º" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.goodsPrice }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="…Ã∆∑◊¥Ã¨" width="180">
+        <el-table-column label="ÂïÜÂìÅÁä∂ÊÄÅ" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.state }}</span>
             </template>
         </el-table-column>
-        <el-table-column label="…Ã∆∑¬Ùº“" width="180">
+        <el-table-column label="ÂïÜÂìÅÂçñÂÆ∂" width="180">
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.biz.bizName }}</span>
             </template>
         </el-table-column>
 
-        <el-table-column fixed="right" label="≤Ÿ◊˜">
+        <el-table-column fixed="right" label="Êìç‰Ωú">
             <template slot-scope="scope">
                 <el-button
                         size="mini"
                         type="primary"
                         icon="el-icon-edit"
                         @click="handleEdit(scope.row)"
-                >±‡º≠
+                >ÁºñËæë
                 </el-button>
                 <el-popconfirm
-                        confirm-button-text='»∑»œ…æ≥˝'
+                        confirm-button-text='Á°ÆËÆ§Âà†Èô§'
                         @confirm="handleDelete(scope.row)"
-                        cancel-button-text='»°œ˚'
+                        cancel-button-text='ÂèñÊ∂à'
                         icon="el-icon-info"
                         icon-color="red"
-                        title="’‚ «“ª∂Œƒ⁄»›»∑∂®…æ≥˝¬£ø"
+                        title="ËøôÊòØ‰∏ÄÊÆµÂÜÖÂÆπÁ°ÆÂÆöÂà†Èô§ÂêóÔºü"
                 >
                     <el-button
                             size="mini"
                             type="danger"
                             slot="reference"
                             icon="el-icon-delete"
-                    >…æ≥˝
+                    >Âà†Èô§
                     </el-button>
                 </el-popconfirm>
 
@@ -129,13 +129,13 @@
 
     <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
         <el-form :model="goods">
-            <el-form-item label="…Ã∆∑√˚" :label-width="formLabelWidth">
+            <el-form-item label="ÂïÜÂìÅÂêç" :label-width="formLabelWidth">
                 <el-input v-model="goods.goodsName" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="…Ã∆∑ºÚΩÈ" :label-width="formLabelWidth">
+            <el-form-item label="ÂïÜÂìÅÁÆÄ‰ªã" :label-width="formLabelWidth">
                 <el-input v-model="goods.goodsIntro" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="…Ã∆∑¿‡–Õ" :label-width="formLabelWidth">
+            <el-form-item label="ÂïÜÂìÅÁ±ªÂûã" :label-width="formLabelWidth">
                 <el-cascader
                         v-model="createOrUpdate.gtypeValue"
                         :options="createOrUpdate.gtypeOptions"
@@ -143,7 +143,7 @@
                         :label="createOrUpdate.gtypeOptions.typeName"
                 ></el-cascader>
             </el-form-item>
-            <el-form-item label="…Ãº“" :label-width="formLabelWidth">
+            <el-form-item label="ÂïÜÂÆ∂" :label-width="formLabelWidth">
                 <el-cascader
                     v-model="createOrUpdate.bizValue"
                     :options="createOrUpdate.bizOptions"></el-cascader>
@@ -154,26 +154,26 @@
 <!--                        :value="item.id">-->
 <!--                </el-option>-->
             </el-form-item>
-            <el-form-item label="…Ã∆∑ ˝¡ø" :label-width="formLabelWidth">
+            <el-form-item label="ÂïÜÂìÅÊï∞Èáè" :label-width="formLabelWidth">
                 <el-input v-model="goods.goodsSum" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="…Ã∆∑º€∏Ò" :label-width="formLabelWidth">
+            <el-form-item label="ÂïÜÂìÅ‰ª∑Ê†º" :label-width="formLabelWidth">
                 <el-input v-model="goods.goodsPrice" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="…Ã∆∑∑‚√Ê" :label-width="formLabelWidth">
+            <el-form-item label="ÂïÜÂìÅÂ∞ÅÈù¢" :label-width="formLabelWidth">
                 <el-input v-model="goods.goodsImg" autocomplete="off"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">»° œ˚</el-button>
-            <el-button type="primary" @click="saveOrCreate">»∑ ∂®</el-button>
+            <el-button @click="dialogFormVisible = false">Âèñ Ê∂à</el-button>
+            <el-button type="primary" @click="saveOrCreate">Á°Æ ÂÆö</el-button>
         </div>
     </el-dialog>
 </div>
 
 </body>
 <script src="../../../assets/js/vue.js"></script>
-<!-- “˝»Î◊Èº˛ø‚ -->
+<!-- ÂºïÂÖ•ÁªÑ‰ª∂Â∫ì -->
 <script src="../../../assets/css/elementui/elementui.js"></script>
 <script src="../../../assets/js/axios.js"></script>
 <script>
@@ -213,6 +213,7 @@
             this.getGoodsOption();
         },
         methods: {
+
             getData() {
                 axios.get('http://localhost:8002/goods/getGoodsByPage', {
                     params: {
@@ -248,7 +249,7 @@
                 goods.goodsSum=row.goodsSum
                 goods.goodsPrice=row.goodsPrice
                 goods.goodsImg=row.goodsImg
-                this.dialogTitle = '±‡º≠';
+                this.dialogTitle = 'ÁºñËæë';
                 this.dialogFormVisible = true
             },
             getGoodsOption(){
@@ -288,7 +289,7 @@
                 goods.goodsImg=''
                 createOrUpdate.gtypeValue=[]
                 createOrUpdate.bizValue=[]
-                this.dialogTitle = 'ÃÌº”';
+                this.dialogTitle = 'Ê∑ªÂä†';
                 this.dialogFormVisible = true
             },
             saveOrCreate() {

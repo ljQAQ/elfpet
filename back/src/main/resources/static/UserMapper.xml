@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elf.mapper.UserMapper">
+
+
+    <insert id="saveUser" parameterType="User">
+        insert into user (account, password, nickname, phone, email, id_card, birth, gender, avatar, description, create_time) VALUES
+        (#{account},#{password},#{nickname},#{phone},#{email},#{id_card},#{birth},#{gender},#{avatar},#{description},#{createTime})
+    </insert>
+<!--List<User> getUserList(String key);-->
+
+    <select id="getUserList" resultType="User">
+        select * from user
+    </select>
+
+</mapper>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="GBK"/>
+    <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Document</title>
@@ -26,21 +26,21 @@
                           type="text"
                           size="small"
                           @click="() => handleAdd(node, data)">
-                    Ìí¼Ó×Ó½Úµã
+                    æ·»åŠ å­èŠ‚ç‚¹
                   </el-button>
                     <el-button
                             v-if="node.data.pid != 0"
                             type="text"
                             size="small"
                             @click="() => handleEdit(node, data)">
-                    ĞŞ¸Ä½Úµã
+                    ä¿®æ”¹èŠ‚ç‚¹
                   </el-button>
                   <el-button
                           v-if="node.data.pid != 0"
                           type="text"
                           size="small"
                           @click="visible = true">
-                    É¾³ı½Úµã
+                    åˆ é™¤èŠ‚ç‚¹
                   </el-button>
                 </span>
               </span>
@@ -51,36 +51,36 @@
 
     <el-dialog :title="setPermissionDialog.dialogTitle" :visible.sync="setPermissionDialog.dialogFormVisible">
         <el-form :model="aclPermission">
-            <el-form-item label="¸¸½ÚµãÃû" :label-width="setPermissionDialog.formLabelWidth">
+            <el-form-item label="çˆ¶èŠ‚ç‚¹å" :label-width="setPermissionDialog.formLabelWidth">
                 <span>{{aclPermission.pName}}</span>
             </el-form-item>
-            <el-form-item label="½ÚµãÃû" :label-width="setPermissionDialog.formLabelWidth">
+            <el-form-item label="èŠ‚ç‚¹å" :label-width="setPermissionDialog.formLabelWidth">
                 <el-input v-model="aclPermission.name" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="ÀàĞÍ" :label-width="setPermissionDialog.formLabelWidth">
+            <el-form-item label="ç±»å‹" :label-width="setPermissionDialog.formLabelWidth">
                 <el-radio-group v-model="aclPermission.type">
-                    <el-radio-button label="1">²Ëµ¥</el-radio-button>
-                    <el-radio-button label="2">°´Å¥</el-radio-button>
+                    <el-radio-button label="1">èœå•</el-radio-button>
+                    <el-radio-button label="2">æŒ‰é’®</el-radio-button>
                 </el-radio-group>
             </el-form-item>
 
-            <el-form-item label="·ÃÎÊÂ·¾¶" :label-width="setPermissionDialog.formLabelWidth">
+            <el-form-item label="è®¿é—®è·¯å¾„" :label-width="setPermissionDialog.formLabelWidth">
                 <el-input v-model="aclPermission.path" autocomplete="off"></el-input>
             </el-form-item>
-<!--            <el-form-item label="×é¼ş" :label-width="formLabelWidth">-->
+<!--            <el-form-item label="ç»„ä»¶" :label-width="formLabelWidth">-->
 <!--                <el-input v-model="aclPermission.component" autocomplete="off"></el-input>-->
 <!--            </el-form-item>-->
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="setPermissionDialog.dialogFormVisible = false">È¡ Ïû</el-button>
-            <el-button type="primary" @click="createOrUpdate">È· ¶¨</el-button>
+            <el-button @click="setPermissionDialog.dialogFormVisible = false">å– æ¶ˆ</el-button>
+            <el-button type="primary" @click="createOrUpdate">ç¡® å®š</el-button>
         </div>
     </el-dialog>
 </div>
 
 </body>
 <script src="../../../assets/js/vue.js"></script>
-<!-- ÒıÈë×é¼ş¿â -->
+<!-- å¼•å…¥ç»„ä»¶åº“ -->
 <script src="../../../assets/css/elementui/elementui.js"></script>
 <script src="../../../assets/js/axios.js"></script>
 <script>
@@ -145,7 +145,7 @@
                 aclPermission.icon = node.data.icon;
                 aclPermission.status = node.data.status;
                 console.log(aclPermission)
-                this.setPermissionDialog.dialogTitle = '±à¼­';
+                this.setPermissionDialog.dialogTitle = 'ç¼–è¾‘';
                 this.setPermissionDialog.dialogFormVisible = true
             },
             handleAdd(node, data) {
@@ -159,7 +159,7 @@
                 aclPermission.component = "";
                 aclPermission.icon = "";
                 aclPermission.status = 1;
-                this.setPermissionDialog.dialogTitle = 'Ìí¼Ó';
+                this.setPermissionDialog.dialogTitle = 'æ·»åŠ ';
                 this.setPermissionDialog.dialogFormVisible = true
             },
             createOrUpdate() {
