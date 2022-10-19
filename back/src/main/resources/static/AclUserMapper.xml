@@ -22,12 +22,12 @@
 
     <insert id="insertAclUser" parameterType="AclUserDto">
         insert into acl_user (id, username, password, nick_name, salt, token, is_deleted, gmt_create, gmt_modified) VALUES
-        (#{id},#{username},#{password},#{nickName},#{salt},#{token},#{isDelete},#{gmtCreate},#{gmtModified})
+        (#{id},#{username},#{password},#{nickName},#{salt},#{token},#{isDeleted},#{gmtCreate},#{gmtModified})
     </insert>
 
     <insert id="insertAclUserRole" parameterType="AclUserDto">
         insert into acl_user_role (id, role_id, user_id, is_deleted, gmt_create, gmt_modified) VALUES
-        (#{id},#{roleId},#{id},#{isDelete},#{gmtCreate},#{gmtModified})
+        (#{id},#{roleId},#{id},#{isDeleted},#{gmtCreate},#{gmtModified})
     </insert>
 
     <update id="updateAclUser" parameterType="AclUserDto">

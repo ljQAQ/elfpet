@@ -46,10 +46,16 @@ public class AclRolePermissionServiceImpl implements AclRolePermissionService {
             if (add)
             list.add(new AclRolePermission(UUIDUtils.getUUID(),aclRoleDto.getId(),permissionId,0,new Date(),new Date()));
         }
-        Integer i = aclRolePermissionMapper.saveRolePermission(list);
+        Integer i =0;
+        if (list.size() != 0) {
+            i =aclRolePermissionMapper.saveRolePermission(list);
+        }
+
         String ps=permissionIdByRoleId.toString();
         ps=ps.substring(1,ps.length()-1);
-        aclRolePermissionMapper.deleteRolePermission(aclRoleDto.getId(),ps);
+        if (permissionIdByRoleId.size() != 0) {
+            i =aclRolePermissionMapper.deleteRolePermission(aclRoleDto.getId(),ps);
+        }
         if (i>0){
             return Result.ok();
         }else

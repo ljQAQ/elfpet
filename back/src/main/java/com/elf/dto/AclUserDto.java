@@ -16,7 +16,7 @@ public class AclUserDto {
     private String nickName;
     private String salt;
     private String token;
-    private Integer isDeleted = 0;
+    private Integer isDeleted;
     private Date gmtCreate;
     private Date gmtModified;
 
