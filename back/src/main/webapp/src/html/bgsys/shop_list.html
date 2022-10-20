@@ -137,22 +137,21 @@
             </el-form-item>
             <el-form-item label="商品类型" :label-width="formLabelWidth">
                 <el-cascader
-                        v-model="createOrUpdate.gtypeValue"
+                        v-model="goods.gtypeId"
                         :options="createOrUpdate.gtypeOptions"
                         :value="createOrUpdate.gtypeOptions.id"
                         :label="createOrUpdate.gtypeOptions.typeName"
                 ></el-cascader>
             </el-form-item>
             <el-form-item label="商家" :label-width="formLabelWidth">
-                <el-cascader
-                    v-model="createOrUpdate.bizValue"
-                    :options="createOrUpdate.bizOptions"></el-cascader>
-<!--                <el-option-->
-<!--                        v-for="item in bizOptions"-->
-<!--                        :key="item.id"-->
-<!--                        :label="item.bizName"-->
-<!--                        :value="item.id">-->
-<!--                </el-option>-->
+                <el-select v-model="goods.bizId" placeholder="请选择">
+                    <el-option
+                            v-for="item in createOrUpdate.bizOptions"
+                            :key="item.id"
+                            :label="item.bizName"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="商品数量" :label-width="formLabelWidth">
                 <el-input v-model="goods.goodsSum" autocomplete="off"></el-input>
@@ -191,7 +190,7 @@
         gtypeOptions:[],
         bizOptions:[],
         gtypeValue:[],
-        bizValue:[],
+        bizValue:"",
     }
     var data = {
         tableData: [],
@@ -260,10 +259,10 @@
                     axios.spread((bizOptions,gtypeOptions)=>{
                         var bizData = bizOptions.data
                         var gtypeData = gtypeOptions.data
-                        console.log(bizData)
-                        console.log(gtypeData)
+                        console.log("bizData:"+bizData)
+                        console.log("gtype:"+gtypeData)
                         if (bizData.success){
-                            this.createOrUpdate.bizOptions=bizData.data.bizOptions
+                            this.createOrUpdate.bizOptions=bizData.data.bizs
                         }else {
                             alert(bizData.message)
                         }
@@ -288,7 +287,7 @@
                 goods.goodsPrice=0
                 goods.goodsImg=''
                 createOrUpdate.gtypeValue=[]
-                createOrUpdate.bizValue=[]
+                createOrUpdate.bizValue=""
                 this.dialogTitle = '添加';
                 this.dialogFormVisible = true
             },

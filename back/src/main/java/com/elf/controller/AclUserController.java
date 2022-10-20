@@ -37,4 +37,9 @@ public class AclUserController {
         return aclUserService.createOrUpdate(aclUserDto);
     }
 
+    @GetMapping("/getPermissionByUserId")
+    public Result getPermissionByUserId(String userId){
+        return aclUserService.getPermissionByUserId(userId);
+    }
+
 }

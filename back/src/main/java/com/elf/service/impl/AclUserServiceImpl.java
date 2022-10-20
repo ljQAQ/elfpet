@@ -73,4 +73,10 @@ public class AclUserServiceImpl implements AclUserService {
         }
 
     }
+
+    @Override
+    public Result getPermissionByUserId(String userId) {
+//        aclUserMapper.getPermissionByUserId(userId);
+        return null;
+    }
 }

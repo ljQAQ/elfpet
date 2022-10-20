@@ -12,4 +12,6 @@ public interface AclUserService {
     Result login(AclUser aclUser, HttpServletRequest request);
 
     Result createOrUpdate(AclUserDto aclUserDto);
+
+    Result getPermissionByUserId(String userId);
 }
