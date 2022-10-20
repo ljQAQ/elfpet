@@ -5,6 +5,8 @@ import com.elf.commonutils.UUIDUtils;
 import com.elf.domain.AclUser;
 import com.elf.dto.AclUserDto;
 import com.elf.mapper.AclUserMapper;
+import com.elf.service.AclPermissionService;
+import com.elf.service.AclRolePermissionService;
 import com.elf.service.AclUserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -23,7 +25,8 @@ public class AclUserServiceImpl implements AclUserService {
 
     @Autowired
     AclUserMapper aclUserMapper;
-
+    @Autowired
+    AclPermissionService aclPermissionService;
 
     @Override
     public Result getPageList(Integer pageNum, Integer pageSize) {
@@ -76,7 +79,9 @@ public class AclUserServiceImpl implements AclUserService {
 
     @Override
     public Result getPermissionByUserId(String userId) {
-//        aclUserMapper.getPermissionByUserId(userId);
-        return null;
+//        根据userId获取roleId
+        String s = aclUserMapper.selectRoleIdByUserId(userId);
+//        根据role获取Permission
+        return aclPermissionService.getTreeList(s);
     }
 }

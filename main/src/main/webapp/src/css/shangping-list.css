@@ -12,6 +12,7 @@ div,ul,li,a,p{padding: 0px;margin: 0px;text-decoration: none;}
       #mynav{width: 83%;height: 80px;margin-top: 5px;background:rgba(0,0,0,0) none repeat scroll !important;font-size: 14px;line-height: 60px;float: left;}
       #head-icon{margin-left: 10px;margin-right: 25px;}
       #mynav ul li{width: 80px;float: left;margin-left: 10px;}
+        #mynav ul li.six-word{width: 100px;color: rgba(0,0,0,1);}
       #mynav ul li.five-word{width: 80px;color: rgba(0,0,0,1);}
       #mynav ul li.three-word{width: 60px;color: rgba(0,0,0,1);}
       #mynav ul li.two-word{width: 50px;color: rgba(0,0,0,1);} /*实现背景透明文字不透明操作*/

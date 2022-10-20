@@ -55,10 +55,31 @@
     <nav class="navbar-default navbar-side" role="navigation">
         <div class="sidebar-collapse">
             <ul class="nav" id="main-menu">
-
                 <li>
                     <a class="active-menu waves-effect waves-dark" href="index.html"><i class="fa fa-dashboard"></i>
                         首页</a>
+                </li>
+                <li v-for="">
+                    <a href="#" class="waves-effect waves-dark"><i class="fa fa-sitemap"></i>宠物管理<span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+
+                        <li>
+                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('classes_list.jsp')"><i
+                                    class="fa fa-table"></i> 领养申请审核</a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('classes_list.jsp')"><i
+                                    class="fa fa-table"></i> 宠物列表</a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('classes_list.jsp')"><i
+                                    class="fa fa-edit"></i> 宠物类型列表 </a>
+                        </li>
+
+                    </ul>
                 </li>
                 <li>
                     <a href="#" class="waves-effect waves-dark"><i class="fa fa-sitemap"></i>宠物管理<span
@@ -79,21 +100,6 @@
                             <a href="#" class="waves-effect waves-dark" onclick="changeIframe('classes_list.jsp')"><i
                                     class="fa fa-edit"></i> 宠物类型列表 </a>
                         </li>
-                        <!--                        三级目录模板-->
-                        <!--                        <li>-->
-                        <!--                            <a href="#">Second Level Link<span class="fa arrow"></span></a>-->
-                        <!--                            <ul class="nav nav-third-level">-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Third Level Link</a>-->
-                        <!--                                </li>-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Third Level Link</a>-->
-                        <!--                                </li>-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Third Level Link</a>-->
-                        <!--                                </li>-->
-                        <!--                            </ul>-->
-                        <!--                        </li>-->
 
                     </ul>
                 </li>
@@ -182,6 +188,21 @@
                         </li>
                     </ul>
                 </li>
+                <!--                        三级目录模板-->
+                <!--                        <li>-->
+                <!--                            <a href="#">Second Level Link<span class="fa arrow"></span></a>-->
+                <!--                            <ul class="nav nav-third-level">-->
+                <!--                                <li>-->
+                <!--                                    <a href="#">Third Level Link</a>-->
+                <!--                                </li>-->
+                <!--                                <li>-->
+                <!--                                    <a href="#">Third Level Link</a>-->
+                <!--                                </li>-->
+                <!--                                <li>-->
+                <!--                                    <a href="#">Third Level Link</a>-->
+                <!--                                </li>-->
+                <!--                            </ul>-->
+                <!--                        </li>-->
             </ul>
 
         </div>
@@ -224,12 +245,28 @@
 
 <script src="../../../assets/js/custom-scripts.js"></script>
 
+<script src="../../../assets/js/vue.js"></script>
+<script src="../../../assets/js/axios.js"></script>
 
 </body>
 <script type="text/javascript">
+    var app = new Vue({
+        el:"#wrapper",
+        data:{
+            navList:[],
+
+        },
+        created() {
+            this.getData();
+            this.getGoodsOption();
+        },
+        methods:{
+
+        }
+    })
     $(function () {
         var userId = $.session.get("userId");
-
+        var s = window.sessionStorage.key("userId");
         // $.ajax({
         //     url:'',
         //     type:'',

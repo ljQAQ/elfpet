@@ -15,6 +15,8 @@ public interface AclUserMapper {
 
     List<AclUserDto> selectAll();
 
+    String selectRoleIdByUserId(String userId);
+
     @Select("select * from acl_user where id = #{id}")
     AclUser selectById(String id);
 

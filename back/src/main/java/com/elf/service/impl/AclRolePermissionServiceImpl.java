@@ -33,6 +33,7 @@ public class AclRolePermissionServiceImpl implements AclRolePermissionService {
 
     @Override
     public Result setRolePermission(AclRoleDto aclRoleDto) {
+        aclRoleDto.getPermissionIds().remove("1");
         List<AclRolePermission> list = new ArrayList<>();
         List<String> permissionIdByRoleId = aclRolePermissionMapper.getPermissionIdByRoleId(aclRoleDto.getId());
         for (String permissionId: aclRoleDto.getPermissionIds()) {

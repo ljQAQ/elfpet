@@ -57,7 +57,12 @@ public class AclPermissionServiceImpl implements AclPermissionService {
     }
 
     @Override
-    public Result getTreeListByRoleId(String id) {
+    public Result getTreeListByRoleId(String roleId) {
+        List<AclPermissionDto> list =  aclPermissionMapper.getPermissionListByRoleId(roleId);
         return null;
+    }
+
+    public void cleanPermissionListChildren(List<AclPermissionDto> list){
+
     }
 }

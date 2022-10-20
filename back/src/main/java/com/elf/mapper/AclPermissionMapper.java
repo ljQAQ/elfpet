@@ -23,4 +23,5 @@ public interface AclPermissionMapper {
 
     Integer updateById(AclPermission aclPermission);
 
+    List<AclPermissionDto> getPermissionListByRoleId(String roleId);
 }

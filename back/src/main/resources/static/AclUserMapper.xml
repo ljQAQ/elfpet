@@ -14,6 +14,11 @@
     Integer updateAclUser(AclUser aclUser);
     -->
 
+    <select id="selectRoleIdByUserId" resultType="String">
+        select aur.role_id
+        from acl_user u inner join acl_user_role aur on u.id = aur.user_id
+        where u.id = #{userId}
+    </select>
 
     <select id="selectAll" resultType="AclUserDto">
         select u.id, u.username, u.password, u.nick_name, u.salt, u.token, u.is_deleted, u.gmt_create, u.gmt_modified, aur.role_id
