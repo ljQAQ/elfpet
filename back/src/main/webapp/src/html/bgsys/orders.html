@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="GBK"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+    <link rel="stylesheet" href="../../../assets/css/elementui/theme/index.css"/>
+
+</head>
+<body style="margin: 2px;height: 100%">
+<div id="tb">
+    <el-row>
+        <el-col :span="3">
+            <div class="grid-content bg-purple">
+                <el-button type="primary" icon="el-icon-circle-plus" @click="handleAdd">添加</el-button>
+            </div>
+        </el-col>
+        <el-col :span="3">
+            <div class="grid-content bg-purple">
+                <el-button type="primary" icon="el-icon-delete">批量删除</el-button>
+            </div>
+        </el-col>
+        <el-col :span="6">
+            <div class="demo-input-suffix">
+                <el-input
+                        placeholder="请输入内容"
+                        v-model="key">
+                </el-input>
+            </div>
+        </el-col>
+        <el-button type="primary" icon="el-icon-search" @click="getData">查询</el-button>
+    </el-row>
+    <el-table :data="tableData" style="width: 100%"  height="550" border>
+        <el-table-column
+                type="selection"
+                width="55">
+        </el-table-column>
+        <el-table-column label="ID" width="70">
+            <template slot-scope="scope">
+                <span style="margin-left: 10px">{{ scope.row.id }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="订单编号" width="180">
+            <template slot-scope="scope">
+                <span style="margin-left: 10px">{{ scope.row.orderNo }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="商品编号" width="180">
+            <template slot-scope="scope">
+                <span style="margin-left: 10px">{{ scope.row.goodNo }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="价格" width="180">
+            <template slot-scope="scope">
+                <span style="margin-left: 10px">{{ scope.row.price }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="数量" width="180">
+            <template slot-scope="scope">
+                <span style="margin-left: 10px">{{ scope.row.num }}</span>
+            </template>
+        </el-table-column>
+<!--        <el-table-column label="付款时间" width="180">-->
+<!--            <template slot-scope="scope">-->
+<!--                <span style="margin-left: 10px">{{ scope.row.payTime }}</span>-->
+<!--            </template>-->
+<!--        </el-table-column>-->
+
+<!--        <el-table-column label="发货时间" width="180">-->
+<!--            <template slot-scope="scope">-->
+<!--                <span style="margin-left: 10px">{{ scope.row.goTime }}</span>-->
+<!--            </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="订单金额" width="180">-->
+<!--            <template slot-scope="scope">-->
+<!--                <span style="margin-left: 10px">{{ scope.row.orderTotal }}</span>-->
+<!--            </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="订单数量" width="180">-->
+<!--            <template slot-scope="scope">-->
+<!--                <span style="margin-left: 10px">{{ scope.row.productCount }}</span>-->
+<!--            </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="订单价格" width="180">-->
+<!--            <template slot-scope="scope">-->
+<!--                <span style="margin-left: 10px">{{ scope.row.orderTotal }}</span>-->
+<!--            </template>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="备注" width="180">-->
+<!--            <template slot-scope="scope">-->
+<!--                <span style="margin-left: 10px">{{ scope.row.remark }}</span>-->
+<!--            </template>-->
+<!--        </el-table-column>-->
+
+        <el-table-column fixed="right" label="操作">
+            <template slot-scope="scope">
+                <el-button
+                        size="mini"
+                        type="primary"
+                        icon="el-icon-edit"
+                        @click="handleEdit(scope.row)"
+                >编辑
+                </el-button>
+                <el-popconfirm
+                        confirm-button-text='确认删除'
+                        @confirm="handleDelete(scope.row)"
+                        cancel-button-text='取消'
+                        icon="el-icon-info"
+                        icon-color="red"
+                        title="这是一段内容确定删除吗？"
+                >
+                    <el-button
+                            size="mini"
+                            type="danger"
+                            slot="reference"
+                            icon="el-icon-delete"
+                    >删除
+                    </el-button>
+                </el-popconfirm>
+
+            </template>
+        </el-table-column>
+    </el-table>
+    <el-pagination
+            background
+            layout="prev, pager, next"
+            :page-size="pageSize"
+            :total="totalNums"
+            :current-page="currentPage"
+            @current-change="changepage"
+    >
+    </el-pagination>
+
+    <el-dialog :title="dialogTitle" :visible.sysnc="dialogFormVisible">
+        <el-form :model="orders">
+            <el-form-item label="订单编号" :label-width="formLabelWidth">
+                <el-input v-model="orders.orderNo" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="商品编号" :label-width="formLabelWidth">
+                <el-input v-model="orders.goodNo" autocomplete="off"></el-input>
+            </el-form-item>
+<!--            <el-form-item label="订单状态" :label-width="formLabelWidth">-->
+<!--                <el-cascader-->
+<!--                        v-model="createOrUpdate.gtypeValue"-->
+<!--                        :options="createOrUpdate.gtypeOptions"-->
+<!--                        :value="createOrUpdate.gtypeOptions.id"-->
+<!--                        :label="createOrUpdate.gtypeOptions.typeName"-->
+<!--                ></el-cascader>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="商家" :label-width="formLabelWidth">-->
+<!--                <el-cascader-->
+<!--                    v-model="createOrUpdate.bizValue"-->
+<!--                    :options="createOrUpdate.bizOptions"></el-cascader>-->
+<!--&lt;!&ndash;                <el-option&ndash;&gt;-->
+<!--&lt;!&ndash;                        v-for="item in bizOptions"&ndash;&gt;-->
+<!--&lt;!&ndash;                        :key="item.id"&ndash;&gt;-->
+<!--&lt;!&ndash;                        :label="item.bizName"&ndash;&gt;-->
+<!--&lt;!&ndash;                        :value="item.id">&ndash;&gt;-->
+<!--&lt;!&ndash;                </el-option>&ndash;&gt;-->
+<!--            </el-form-item>-->
+            <el-form-item label="订单名称" :label-width="formLabelWidth">
+                <el-input v-model="orders.orderName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="价格" :label-width="formLabelWidth">
+                <el-input v-model="orders.price" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="数量" :label-width="formLabelWidth">
+                <el-input v-model="orders.num" autocomplete="off"></el-input>
+            </el-form-item>
+<!--            <el-form-item label="商品封面" :label-width="formLabelWidth">-->
+<!--                <el-input v-model="goods.goodsImg" autocomplete="off"></el-input>-->
+<!--            </el-form-item>-->
+        </el-form>
+<!--        <div slot="footer" class="dialog-footer">-->
+<!--            <el-button @click="dialogFormVisible = false">取 消</el-button>-->
+<!--            <el-button type="primary" @click="saveOrCreate">确 定</el-button>-->
+<!--        </div>-->
+    </el-dialog>
+</div>
+
+</body>
+<script src="../../../assets/js/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="../../../assets/css/elementui/elementui.js"></script>
+<script src="../../../assets/js/axios.js"></script>
+<script>
+    var orders={
+        id:null,
+        orderNo:'',
+        goodNo:'',
+        orderName:null,
+        price:'',
+        num:'',
+
+    }
+    var createOrUpdate={
+        gtypeOptions:[],
+        bizOptions:[],
+        gtypeValue:[],
+        bizValue:[],
+    }
+    var data = {
+        tableData: [],
+        createOrUpdate:createOrUpdate,
+        totalNums: 0,
+        pageSize: 10,
+        currentPage: 1,
+        key: '',
+        dialogFormVisible: false,
+        dialogTitle: '',
+        orders:orders,
+        formLabelWidth: '120px'
+    }
+    var app = new Vue({
+        el: "#tb",
+        data: data,
+        created() {
+            this.getData();
+            this.getGoodsOption();
+        },
+        methods: {
+            getData() {
+                axios.get('http://localhost:8002/goods/getGoodsByPage', {
+                    params: {
+                        'pageSize': this.pageSize,
+                        'pageNum': this.currentPage,
+                        'key': this.key,
+                    }
+                }).then((res) => {
+                    var data = res.data;
+                    console.log(res)
+                    if (data.code == "20000") {
+                        var pageUtils = data.data.goodsPage;
+                        this.tableData = pageUtils.list;
+                        this.totalNums = pageUtils.totalCount;
+                        this.pageSize = pageUtils.pageSize;
+                        this.currentPage = pageUtils.currPage;
+                    } else {
+                        this.changepage(this.currentPage - 1)
+                    }
+                })
+
+            },
+            changepage(currentPage) {
+                this.currentPage = currentPage;
+                this.getData();
+            },
+            handleEdit(row) {
+                orders.id = row.id
+                orders.orderNo=row.orderNo
+                orders.goodNo=row.goodNo
+                orders.orderName=row.orderName
+                orders.orderName=row.orderName
+                orders.price=row.price
+                orders.num=row.num
+                // order.goTime=row.goTime
+                // order.remark=row.remark
+                this.dialogTitle = '编辑';
+                this.dialogFormVisible = true
+            },
+            getGoodsOption(){
+                axios.all([
+                    axios.get('http://localhost:8002/biz/getAll'),
+                    axios.get('http://localhost:8002/gtype/getAll')
+                ]).then(
+                    axios.spread((bizOptions,gtypeOptions)=>{
+                        var bizData = bizOptions.data
+                        var gtypeData = gtypeOptions.data
+                        console.log(bizData)
+                        console.log(gtypeData)
+                        if (bizData.success){
+                            this.createOrUpdate.bizOptions=bizData.data.bizOptions
+                        }else {
+                            alert(bizData.message)
+                        }
+                        if (gtypeData.success){
+                            this.createOrUpdate.gtypeOptions=gtypeData.data.gtypeOptions
+                        }else {
+                            alert(gtypeData.message)
+                        }
+                    })
+                )
+            },
+            getGoodsValue(){
+
+            },
+            handleAdd() {
+                orders.id = null
+                orders.orderNo=''
+                orders.goodNo=''
+                orders.orderName=null
+                orders.price=''
+                orders.num=''
+                createOrUpdate.gtypeValue=[]
+                createOrUpdate.bizValue=[]
+                this.dialogTitle = '添加';
+                this.dialogFormVisible = true
+            },
+            saveOrCreate() {
+                axios.get('http://localhost:8888/classes', {
+                    params: {
+                        'method': 'saveOrCreate',
+                        'id': classes.id,
+                        'classes_name': classes.classes_name,
+                        'college_id': classes.college_id,
+                    }
+                }).then((res) => {
+                    var data = res.data;
+                    if (data.code == "20000") {
+                        this.$message({
+                            message: data.message,
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error(data.message);
+                    }
+                    this.dialogFormVisible = false
+                    this.getData();
+                })
+            },
+            handleDelete(row) {
+                axios.get('http://localhost:8888/classes', {
+                    params: {
+                        'method': 'delete',
+                        'id': row.id,
+                    }
+                }).then((res) => {
+                    var data = res.data;
+                    if (data.code == "20000") {
+                        this.$message({
+                            message: data.message,
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error(data.message);
+                    }
+                    this.getData();
+                })
+            },
+        },
+    });
+</script>
+</html>
