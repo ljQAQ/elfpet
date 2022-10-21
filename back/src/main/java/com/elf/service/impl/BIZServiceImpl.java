@@ -42,11 +42,11 @@ public class BIZServiceImpl implements BIZService {
     @Override
     public Result deleteOneBIZ(Long id) {
         if (id<=0){
-            return Result.error().message("id不合法").code(-1);
+            return Result.error().message("id不合法");
         }
         int i = bizMapper.deleteOne(id);
         if (i==0){
-            return Result.error().message("添加失败").code(-1);
+            return Result.error().message("添加失败");
         }
         return Result.ok();
     }
@@ -66,7 +66,7 @@ public class BIZServiceImpl implements BIZService {
     @Override
     public Result updateBIZ(BIZ biz) {
 
-        if (bizMapper.getByBizName(biz.getBizName())==0){
+        if (bizMapper.getByBizName(biz.getBizName())==1){
             return Result.error().message("商家已存在").code(-1);
         }
         int i = bizMapper.updateOne(biz);
@@ -83,6 +83,15 @@ public class BIZServiceImpl implements BIZService {
         List<BIZ> all = bizMapper.getAll();
         PageInfo<BIZ> pageInfo = new PageInfo<>(all);
 
+        return Result.ok().data("pageInfo",pageInfo);
+    }
+
+    @Override
+    public Result searchBIZs(String bizName,Integer pageNo,Integer pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+
+        List<BIZ> searchBIZs = bizMapper.searchBIZs(bizName);
+        PageInfo<BIZ> pageInfo = new PageInfo<>(searchBIZs);
         return Result.ok().data("pageInfo",pageInfo);
     }
 

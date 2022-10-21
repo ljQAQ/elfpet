@@ -2,358 +2,381 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Document</title>
     <link rel="stylesheet" href="../../../assets/css/elementui/theme/index.css"/>
 
+
 </head>
 <body style="margin: 2px;height: 100%">
+
+
 <div id="tb">
-
-
 
     <el-row>
         <el-col :span="3">
-            <div class="grid-content bg-purple">
-                <el-button type="primary" icon="el-icon-circle-plus" @click="handleAdd">添加</el-button>
-            </div>
+            <!--添加-->
+            <el-button type="primary" @click="insertOneBIZ" icon="el-icon-circle-plus">添加商家</el-button>
         </el-col>
+
         <el-col :span="3">
-            <div class="grid-content bg-purple">
-                <el-button type="primary" icon="el-icon-delete">批量删除</el-button>
-            </div>
+            <!--批量删除-->
+            <el-popconfirm
+                    confirm-button-text='好的'
+                    cancel-button-text='不用了'
+                    icon="el-icon-info"
+                    icon-color="red"
+                    title="确定删除吗？"
+                    @confirm="deleteMany"
+            >
+                <!--批量删除-->
+                <el-button type="danger" icon="el-icon-delete" slot="reference">批量删除</el-button>
+            </el-popconfirm>
         </el-col>
-        <el-col :span="6">
-            <div class="demo-input-suffix">
-                <el-input
-                        placeholder="请输入内容"
-                        v-model="key">
-                </el-input>
-            </div>
+
+        <el-col :span="5">
+            <el-input v-model="searchContent" placeholder="搜索商家"></el-input>
         </el-col>
-        <el-button type="primary" icon="el-icon-search" @click="getData">查询</el-button>
+
+
+        <el-col :span="3">
+            <!--模糊查询-->
+            <el-button @click="searchBIZs" type="info" icon="el-icon-search" circle></el-button>
+        </el-col>
+
+        <el-col :span="1" >
+            <el-button @click="all" type="info"  >显示所有</el-button>
+        </el-col>
+
+
     </el-row>
 
 
+    <el-dialog
+            :title="title"
+            :visible.sync="dialogVisible"
+            width="30%">
+        <el-form ref="form" :model="form">
+            <el-form-item label="商家名称">
+                <el-input v-model="form.bizName"></el-input>
+            </el-form-item>
+            <el-form-item label="商家地址">
+                <el-input v-model="form.bizSite"></el-input>
+            </el-form-item>
+            </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="updateOneBIZ">确 定</el-button>
+  </span>
+    </el-dialog>
 
 
+    <!--列表-->
+    <el-table
+            :data="tableData"
+            style="width: 100%"
 
-    <el-table :data="tableData" style="width: 100%">
+            @selection-change="handleSelectionChange">>
         <el-table-column
                 type="selection"
                 width="55">
         </el-table-column>
-        <el-table-column label="ID" width="70">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.id }}</span>
-            </template>
+        <el-table-column
+                fixed
+                prop="id"
+                label="id"
+                width="50">
         </el-table-column>
-        <el-table-column label="商品名" width="180">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsName }}</span>
-            </template>
+        <el-table-column
+                prop="bizName"
+                label="商家名称"
+                width="200">
         </el-table-column>
-        <el-table-column label="商品图片" width="180">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsImg }}</span>
-            </template>
+        <el-table-column
+                prop="bizSite"
+                label="商家地址"
+                width="200">
         </el-table-column>
-        <el-table-column label="商品简介" width="180">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsIntro }}</span>
-            </template>
+        <el-table-column
+                prop="createTime"
+                label="创建时间"
+                width="220">
         </el-table-column>
-        <el-table-column label="商品类型" width="180">
+        <el-table-column
+                fixed="right"
+                label="操作"
+                width="200">
             <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.gtype.typeName }}</span>
-            </template>
-        </el-table-column>
-        <el-table-column label="商品数量" width="180">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsNum }}</span>
-            </template>
-        </el-table-column>
-        <el-table-column label="商品已销售" width="180">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsSold }}</span>
-            </template>
-        </el-table-column>
-        <el-table-column label="商品价格" width="180">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.goodsPrice }}</span>
-            </template>
-        </el-table-column>
-        <el-table-column label="商品状态" width="180">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.state }}</span>
-            </template>
-        </el-table-column>
-        <el-table-column label="商品卖家" width="180">
-            <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.biz.bizName }}</span>
-            </template>
-        </el-table-column>
-
-
-
-        <el-table-column fixed="right" label="操作">
-            <template slot-scope="scope">
-                <el-button
-                        size="mini"
-                        type="primary"
-                        icon="el-icon-edit"
-                        @click="handleEdit(scope.row)"
-                >编辑
-                </el-button>
+                <el-button @click="edit(scope.row)" type="primary" icon="el-icon-edit" circle></el-button>
                 <el-popconfirm
-                        confirm-button-text='确认删除'
-                        @confirm="handleDelete(scope.row)"
-                        cancel-button-text='取消'
+                        confirm-button-text='好的'
+                        cancel-button-text='不用了'
                         icon="el-icon-info"
                         icon-color="red"
                         title="这是一段内容确定删除吗？"
+                        @confirm="deleteOne(scope.row)"
                 >
-                    <el-button
-                            size="mini"
-                            type="danger"
-                            slot="reference"
-                            icon="el-icon-delete"
-                    >删除
-                    </el-button>
+                    <!--<el-button slot="reference">删除</el-button>-->
+                    <el-button type="danger" icon="el-icon-delete" slot="reference" circle></el-button>
                 </el-popconfirm>
             </template>
         </el-table-column>
     </el-table>
+
     <el-pagination
-            background
-            layout="prev, pager, next"
-            :page-size="pageSize"
-            :total="totalNums"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
             :current-page="currentPage"
-            @current-change="changepage"
-    >
+            :page-sizes="[5, 10, 15]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
     </el-pagination>
-
-
-
-
-    <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
-        <el-form :model="goods">
-            <el-form-item label="商品名" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsName" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="商品简介" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsIntro" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="商品类型" :label-width="formLabelWidth">
-                <el-cascader
-                        v-model="createOrUpdate.gtypeValue"
-                        :options="createOrUpdate.gtypeOptions"
-                        :value="createOrUpdate.gtypeOptions.id"
-                        :label="createOrUpdate.gtypeOptions.typeName"
-                ></el-cascader>
-                <!--                <el-input v-model="classes.classes_name" autocomplete="off"></el-input>-->
-            </el-form-item>
-            <el-form-item label="商家" :label-width="formLabelWidth">
-                <el-cascader
-                        v-model="createOrUpdate.bizValue"
-                        :options="createOrUpdate.bizOptions"></el-cascader>
-                <!--                <el-option-->
-                <!--                        v-for="item in bizOptions"-->
-                <!--                        :key="item.id"-->
-                <!--                        :label="item.bizName"-->
-                <!--                        :value="item.id">-->
-                </el-option>
-            </el-form-item>
-            <el-form-item label="商品数量" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsSum" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="商品价格" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsPrice" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="商品封面" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsImg" autocomplete="off"></el-input>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="saveOrCreate">确 定</el-button>
-        </div>
-    </el-dialog>
 </div>
 
 </body>
 <script src="../../../assets/js/vue.js"></script>
 <!-- 引入组件库 -->
-<script src="../../../assets/css/elementui/elementui.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="../../../assets/js/axios.js"></script>
 
+
 <script>
-    var classes = {
-        id: null,
-        classes_name: '',
-        college_id: '',
-    }
-    var goods = {
-        id: null,
-        goodsName: '',
-        goodsIntro: '',
-        gtypeId: null,
-        bizId: null,
-        goodsSum: 0,
-        goodsPrice: 0,
-        goodsImg: '',
-    }
-    var createOrUpdate = {
-        gtypeOptions: [],
-        bizOptions: [],
-        gtypeValue: [],
-        bizValue: [],
-    }
-    var data = {
-        tableData: [],
-        createOrUpdate: createOrUpdate,
-        totalNums: 0,
-        pageSize: 3,
-        currentPage: 1,
-        key: '',
-        dialogFormVisible: false,
-        dialogTitle: '',
-        classes: classes,
-        goods: goods,
-        formLabelWidth: '120px'
-    }
 
-    var app = new Vue({
-        el: "#tb",
-        data: data,
-        created() {
-            this.getData();
-            this.getGoodsOption();
-        },
-        methods: {
-            getData() {
-                axios.get('http://localhost:8002/goods/getGoodsByPage', {
-                    params: {
-                        'pageSize': this.pageSize,
-                        'pageNum': this.currentPage,
-                        'key': this.key,
-                    }
-                }).then((res) => {
-                    var data = res.data;
-                    console.log(res)
-                    if (data.code == "20000") {
-                        var pageUtils = data.data.goodsPage;
-                        this.tableData = pageUtils.list;
-                        console.log(this.tableData)
-                        this.totalNums = pageUtils.totalNums;
-                        this.pageSize = pageUtils.pageSize;
-                        this.currentPage = pageUtils.currentPage;
-                    } else {
-                        this.changepage(this.currentPage - 1)
-                    }
-                })
+    window.onload = function () {
+        var vue = new Vue({
+            el: '#tb',
+            data: {
+                tableData: [],
+                dialogVisible: false,
+                form: {
+                    id: '',
+                    bizName: '',
+                    bizSite: '',
+                },
+                currentPage: 1,
+                pageSize: 5,
+                total: '',
+
+
+                multipleSelection: [],
+                ids: '',
+
+                title: '',
+                message1: '',
+                message2: '',
+
+                userSearch:false,
+                searchContent:'',
 
             },
-            changepage(currentPage) {
-                this.currentPage = currentPage;
-                this.getData();
+            created() {
+                this.axios01();
             },
-            handleEdit(row) {
-                goods.id = row.id
-                goods.goodsName = row.goodsName
-                goods.goodsIntro = row.goodsIntro
-                goods.gtypeId = row.gtypeId
-                goods.bizId = row.bizId
-                goods.goodsSum = row.goodsSum
-                goods.goodsPrice = row.goodsPrice
-                goods.goodsImg = row.goodsImg
-                this.dialogTitle = '编辑';
-                this.dialogFormVisible = true
-            },
-            getGoodsOption() {
-                axios.all([
-                    axios.get('http://localhost:8002/biz/getAll'),
-                    axios.get('http://localhost:8002/gtype/getAll')
-                ]).then(
-                    axios.spread((bizOptions, gtypeOptions) => {
-                        var bizData = bizOptions.data
-                        var gtypeData = gtypeOptions.data
-                        console.log(bizData)
-                        console.log(gtypeData)
-                        if (bizData.success) {
-                            this.createOrUpdate.bizOptions = bizData.data.bizOptions
-                        } else {
-                            alert(bizData.message)
+
+            methods: {
+                handleSizeChange(val) {
+                    this.pageSize = val
+                    if (this.userSearch == true){
+                        this.searchBIZs();
+                    }
+
+
+                },
+                handleCurrentChange(val) {
+                    this.currentPage=val;
+                    // if (this.userSearch == true && this.currentPage ==1){
+                    //     this.searchBIZs();
+                    // }
+                    // if (this.userSearch == true && this.currentPage !=1){
+                    //     this.currentPage=1;
+                    //     this.searchBIZs();
+                    // }
+                    this.searchBIZs();
+                },
+
+                all(){
+                    this.searchContent='';
+                    this.axios01();
+                },
+
+                axios01() {
+                    axios({
+                        method: 'POST',
+                        url: "/biz/pageBIZ",
+                        params: {
+                            pageNo: this.currentPage,
+                            pageSize: this.pageSize,
                         }
-                        if (gtypeData.success) {
-                            this.createOrUpdate.gtypeOptions = gtypeData.data.gtypeOptions
+                    }).then((result) => {
+                            console.log(result);
+                            this.tableData = result.data.data.pageInfo.list;
+                            this.total = result.data.data.pageInfo.total;
+                        }
+                    )
+                },
+
+
+                searchBIZs() {
+
+                    axios({
+                        method: 'post',
+                        url: "/biz/searchBIZs",
+                        params: {
+                            bizName: this.searchContent,
+                            pageNo: this.currentPage,
+                            pageSize: this.pageSize,
+                        }
+                    }).then(result => {
+                        this.tableData = result.data.data.pageInfo.list;
+                        this.total = result.data.data.pageInfo.total;
+                        this.userSearch=true;
+                    })
+                },
+
+                handleClose(done) {
+                    this.$confirm('确认关闭？')
+                        .then(_ => {
+                            done();
+                        })
+                        .catch(_ => {
+                        });
+                },
+
+
+                insertOneBIZ() {
+                    this.title = '添加商家';
+                    this.form.id = '';
+                    this.form.bizName = '';
+                    this.form.bizSite = '';
+                    this.message1 = "数据添加成功";
+                    this.message2 = "数据添加失败"
+                    this.dialogVisible = true;
+                },
+
+                updateOneBIZ() {
+                    axios({
+                        method: 'GET',
+                        url: "/biz/updateBIZ",
+                        params: {
+                            id: this.form.id,
+                            bizName: this.form.bizName,
+                            bizSite: this.form.bizSite,
+                        }
+                    }).then((result) => {
+                            console.log(result);
+                            if (result.data.code === 20000) {
+
+                                this.$message({
+                                    showClose: true,
+                                    type: 'success',
+                                    message: this.message1,
+                                });
+                                this.dialogVisible = false;
+                                this.axios01();
+                            } else {
+                                this.$message({
+                                    showClose: true,
+                                    message: this.message2,
+                                    type: 'error',
+                                });
+                            }
+                        }
+                    )
+                },
+
+
+                handleSelectionChange(val) {
+                    this.multipleSelection = val;
+                    let ids = '';
+                    this.multipleSelection.forEach(function (e) {
+                        ids = ids + e.id + ",";
+                    })
+                    this.ids = ids;
+                },
+
+                deleteMany() {
+
+                    // let ids =JSON.stringify(this.multipleSelection) ;
+
+                    axios({
+                        method: "post",
+                        url: "/biz/deleteBIZs",
+                        params: {
+                            ids: this.ids
+                        }
+                    }).then((result) => {
+                        if (result.data.code === 20000) {
+
+                            this.$message({
+                                showClose: true,
+                                type: 'success',
+                                message: '删除成功'
+                            });
+                            this.dialogVisible = false;
+                            this.axios01();
                         } else {
-                            alert(gtypeData.message)
+                            this.$message({
+                                showClose: true,
+                                message: '删除失败',
+                                type: 'error'
+                            });
+                        }
+
+                    })
+                },
+
+
+                deleteOne(row) {
+
+                    axios({
+                        method: "post",
+                        url: "/biz/deleteBIZ",
+                        params: {
+                            id: row.id,
+                        }
+                    }).then((result) => {
+                        if (result.data.code === 20000) {
+
+                            this.$message({
+                                showClose: true,
+                                type: 'success',
+                                message: result.data.message,
+                            });
+
+                            this.axios01();
+                        } else {
+                            this.$message({
+                                showClose: true,
+                                message: result.data.message,
+                                type: 'error',
+                            });
                         }
                     })
-                )
-            },
-            getGoodsValue() {
+                },
 
-            },
-            handleAdd() {
-                goods.id = null
-                goods.goodsName = ''
-                goods.goodsIntro = ''
-                goods.gtypeId = null
-                goods.bizId = null
-                goods.goodsSum = 0
-                goods.goodsPrice = 0
-                goods.goodsImg = ''
-                createOrUpdate.gtypeValue = []
-                createOrUpdate.bizValue = []
-                this.dialogTitle = '添加';
-                this.dialogFormVisible = true
-            },
-            saveOrCreate() {
-                axios.get('http://localhost:8888/classes', {
-                    params: {
-                        'method': 'saveOrCreate',
-                        'id': classes.id,
-                        'classes_name': classes.classes_name,
-                        'college_id': classes.college_id,
-                    }
-                }).then((res) => {
-                    var data = res.data;
-                    if (data.code == "20000") {
-                        this.$message({
-                            message: data.message,
-                            type: 'success'
-                        });
-                    } else {
-                        this.$message.error(data.message);
-                    }
-                    this.dialogFormVisible = false
-                    this.getData();
-                })
-            },
-            handleDelete(row) {
-                axios.get('http://localhost:8888/classes', {
-                    params: {
-                        'method': 'delete',
-                        'id': row.id,
-                    }
-                }).then((res) => {
-                    var data = res.data;
-                    if (data.code == "20000") {
-                        this.$message({
-                            message: data.message,
-                            type: 'success'
-                        });
-                    } else {
-                        this.$message.error(data.message);
-                    }
-                    this.getData();
-                })
-            },
-        },
-    });
+
+                edit(row) {
+
+                    //console.log(row);
+                    this.title = "修改商家信息";
+                    this.form.id = row.id;
+                    this.form.bizName = row.bizName;
+                    this.form.bizSite = row.bizSite;
+                    this.message1 = "数据修改成功";
+                    this.message2 = "数据修改失败";
+                    this.dialogVisible = true;
+
+                },
+
+
+
+
+
+            }
+        })
+    }
+
+
 </script>
 </html>

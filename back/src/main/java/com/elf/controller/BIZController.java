@@ -21,29 +21,52 @@ public class BIZController {
     }
 
 
-    @RequestMapping("/addBIZ")
-    public Result addBIZ(BIZ biz){
-        return bizService.addBIZ(biz);
-    }
+    //@RequestMapping("/addBIZ")
+    //public Result addBIZ( BIZ biz){
+    //    System.out.println(biz);
+    //    return bizService.addBIZ(biz);
+    //}
 
     @RequestMapping("/updateBIZ")
     public Result updateBIZ(BIZ biz){
-        return bizService.updateBIZ(biz);
+
+        if (biz.getId() != null){
+
+            return bizService.updateBIZ(biz);
+        }else {
+
+            return bizService.addBIZ(biz);
+        }
+
     }
 
     @RequestMapping("/deleteBIZ")
-    public Result deleteBIZ(Long id){
-        return bizService.deleteOneBIZ(id);
+    public Result deleteBIZ(Integer id){
+
+        Long l = id.longValue();
+        return bizService.deleteOneBIZ(l);
+
     }
 
     @RequestMapping("/deleteBIZs")
     public Result deleteBIZs(String ids){
+        System.out.println(ids);
+        ids = ids.substring(0, ids.length() - 1);
+
         return bizService.deleteMany(ids);
+
     }
 
 
+
     @RequestMapping("/pageBIZ")
-    public Result pageBIZ(int pageNo,int pageSize){
+    public Result pageBIZ(Integer pageNo,Integer pageSize){
         return bizService.getBIZByPage(pageNo,pageSize);
+    }
+
+    @RequestMapping("/searchBIZs")
+    public Result searchBIZs(String bizName,Integer pageNo,Integer pageSize){
+        System.out.println(bizName);
+        return bizService.searchBIZs(bizName,pageNo,pageSize);
     }
 }

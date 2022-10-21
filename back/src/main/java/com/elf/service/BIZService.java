@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface BIZService {
 
+
     Result getAll();
 
     Result addBIZ(BIZ biz);
@@ -18,6 +19,10 @@ public interface BIZService {
     Result updateBIZ(BIZ biz);
 
     Result getBIZByPage(int pageNum,int pageSize);
+
+
+    Result searchBIZs(String bizName,Integer pageNo,Integer pageSize);
+
 
 
 }

@@ -4,9 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.elf.mapper.BIZMapper">
 
+
 	<!--int addOneBIZ(BIZ biz);-->
 	<insert id="addOneBIZ" parameterType="BIZ" >
-		insert into biz values (#{biz.id},#{biz.bizName},#{biz.bizSite},#{biz.createTime})
+		insert into biz values (#{biz.id},#{biz.bizName},#{biz.bizSite},now())
 	</insert>
 
 	<!--int deleteMany(String ids);-->
@@ -30,10 +31,13 @@
 			</if>
 		</set>
 		<where>
-		    id = #{id}
+			id = #{id}
 		</where>
-
-
 	</update>
 
+
+	<!--List<BIZ> searchBIZs(String bizName);-->
+	<select id="searchBIZs" resultType="BIZ">
+		select * from biz where biz_name like "%"#{bizName}"%"
+	</select>
 </mapper>

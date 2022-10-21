@@ -32,4 +32,9 @@ public interface BIZMapper {
     int deleteMany(@Param("ids") String ids);
 
     int updateOne(BIZ biz);
+
+
+
+    //@Select("select * from biz where biz_name like  '%'#{bizName}'%'")
+    List<BIZ> searchBIZs(String bizName);
 }
