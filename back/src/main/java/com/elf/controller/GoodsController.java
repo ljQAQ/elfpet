@@ -1,6 +1,7 @@
 package com.elf.controller;
 
 import com.elf.commonutils.Result;
+import com.elf.dto.GoodsDto;
 import com.elf.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,4 +23,19 @@ public class GoodsController {
     public Result getPetList(){
         return goodsService.getPetList();
     }
+
+    @PostMapping("/saveOrCreate")
+    public Result saveOrCreate(@RequestBody GoodsDto goodsDto){
+        return goodsService.saveOrCreate(goodsDto);
+    }
+
+    @GetMapping("/getGoodsSkus")
+    public Result getGoodsSkus(Integer goodsId){
+        return goodsService.getGoodsSkus(goodsId);
+    }
+    @GetMapping("/deleteById")
+    public Result deleteGoodsById(Integer id){
+        return goodsService.deleteGoodsById(id);
+    }
+
 }

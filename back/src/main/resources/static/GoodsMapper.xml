@@ -18,5 +18,41 @@
         select * from goods where gtype_id in (select id from gtype where pid in (select id from gtype where id = #{gtypeId}))
         order by pv desc
     </select>
+<!-- Integer insertGoods(GoodsDto goodsDto);-->
+    <insert id="insertGoods" parameterType="GoodsDto">
+        insert into goods (goods_name, goods_no, goods_img, goods_price, goods_desc, desc_id, pv, biz_id, gtype_id, state, create_time, create_user, update_time, update_user, is_delete)
+        VALUES (#{goodsName},#{goodsNo},#{goodsImg},#{goodsPrice},#{goodsDesc},#{descId},#{pv},#{bizId},#{gtypeId},#{state},#{createTime},#{createUser},#{updateTime},#{updateUser},#{isDelete})
+    </insert>
+
+<!--
+    Integer updateGoods(GoodsDto goodsDto);-->
+
+    <update id="updateGoods" parameterType="GoodsDto">
+        update goods
+        <set>
+            <if test="goodsName!=null and goodsName!=''">
+                goods_name = #{goodsName},
+            </if>
+            <if test="goodsImg!=null and goodsImg!=''">
+                goods_img = #{goodsImg},
+            </if>
+            <if test="goodsPrice!=null">
+                goods_price = #{goodsPrice},
+            </if>
+            <if test="goodsDesc!=null and goodsDesc!=''">
+                goods_desc = #{goodsDesc},
+            </if>
+            <if test="descId!=null">
+                desc_id = #{descId},
+            </if>
+            <if test="bizId!=null">
+                biz_id = #{bizId},
+            </if>
+            <if test="gtypeId!=null">
+                gtype_id = #{gtypeId},
+            </if>
+        </set>
+            where id = #{id}
+    </update>
 
 </mapper>

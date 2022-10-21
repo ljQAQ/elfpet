@@ -25,8 +25,14 @@ public class GTypeServiceImpl implements GTypeService {
                 gTypeDto.setChildren(null);
             }else {
                 for (GTypeDto child : gTypeDto.getChildren()) {
-//                    if (child.getChildren().size()==0)
-                    child.setChildren(null);
+                    if (child.getChildren().size()==0){
+                        child.setChildren(null);
+                    }else {
+                        for (GTypeDto childChild : child.getChildren()) {
+                            childChild.setChildren(null);
+                        }
+                    }
+
                 }
             }
         }

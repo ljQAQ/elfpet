@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elf.mapper.GoodsSkuMapper">
+<!--     Integer insertGoodsSkus(List<GoodsSku> goodsSkus);
+
+    @Select("select id from goods_sku where goods_id = #{goodsId}")
+    List<Integer> selectGoodsSkusByGoodsId(Integer goodsId);
+
+    Integer deleteByGoodsId(Integer id);-->
+
+    <insert id="insertGoodsSkus">
+        insert into goods_sku (id, goods_id, text, price, stock, create_time) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id}, #{item.goodsId}, #{text}, #{price}, #{stock}, #{createTime})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByGoodsId" parameterType="int">
+        delete from goods_sku where goods_id = #{goodsId}
+    </delete>
+</mapper>

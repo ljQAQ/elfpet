@@ -133,11 +133,11 @@
                 <el-input v-model="goods.goodsName" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="商品简介" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsIntro" autocomplete="off"></el-input>
+                <el-input v-model="goods.goodsDesc" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="商品类型" :label-width="formLabelWidth">
                 <el-cascader
-                        v-model="goods.gtypeId"
+                        v-model="createOrUpdate.gtypeValue"
                         :options="createOrUpdate.gtypeOptions"
                         :value="createOrUpdate.gtypeOptions.id"
                         :label="createOrUpdate.gtypeOptions.typeName"
@@ -153,15 +153,21 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="商品数量" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsSum" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="商品价格" :label-width="formLabelWidth">
-                <el-input v-model="goods.goodsPrice" autocomplete="off"></el-input>
-            </el-form-item>
             <el-form-item label="商品封面" :label-width="formLabelWidth">
                 <el-input v-model="goods.goodsImg" autocomplete="off"></el-input>
             </el-form-item>
+            <el-form-item
+                    v-for="(goodsSku, index) in goods.goodsSkus"
+                    :label="'规格' + index"
+                    :key="goodsSku.id"
+                    :prop="'goodsSkus.' + index + '.text'+ '.price'+ '.stock'"
+                    :label-width="formLabelWidth">
+                规格名<el-input v-model="goodsSku.text"></el-input>
+                价格<el-input v-model="goodsSku.price"></el-input>
+                库存量<el-input v-model="goodsSku.stock"></el-input>
+                <el-button @click.prevent="removeGoodsSku(goodsSku)">删除规格</el-button>
+            </el-form-item>
+            <el-button @click="addGoodsSku">新增规格</el-button>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -179,12 +185,13 @@
     var goods={
         id:null,
         goodsName:'',
-        goodsIntro:'',
+        goodsImg:'',
+        goodsDesc:'',
         gtypeId:null,
         bizId:null,
-        goodsSum:0,
-        goodsPrice:0,
-        goodsImg:'',
+        goodsSkus:[
+            {id:Date.now(),goodsId:"",text:"",price:0,stock:0}
+        ]
     }
     var createOrUpdate={
         gtypeOptions:[],
@@ -240,14 +247,25 @@
                 this.getData();
             },
             handleEdit(row) {
-                goods.id = row.id
-                goods.goodsName=row.goodsName
-                goods.goodsIntro=row.goodsIntro
-                goods.gtypeId=row.gtypeId
-                goods.bizId=row.bizId
-                goods.goodsSum=row.goodsSum
-                goods.goodsPrice=row.goodsPrice
-                goods.goodsImg=row.goodsImg
+                this.goods.id = row.id
+                this.goods.goodsName=row.goodsName
+                this.goods.goodsImg=row.goodsImg
+                this.goods.goodsDesc=row.goodsDesc
+                this.goods.gtypeId=row.gtype.id
+                this.goods.bizId=row.biz.id
+                axios.get('http://localhost:8002/goods/getGoodsSkus', {
+                    params: {
+                        'goodsId': row.id,
+                    }
+                }).then((res) => {
+                    var data = res.data;
+                    if (data.success) {
+                        this.goods.goodsSkus= data.data.goodsSkus
+                    } else {
+                        this.$message.error(data.message);
+                    }
+                    this.getData();
+                })
                 this.dialogTitle = '编辑';
                 this.dialogFormVisible = true
             },
@@ -274,34 +292,31 @@
                     })
                 )
             },
-            getGoodsValue(){
-
-            },
             handleAdd() {
-                goods.id = null
-                goods.goodsName=''
-                goods.goodsIntro=''
-                goods.gtypeId=null
-                goods.bizId=null
-                goods.goodsSum=0
-                goods.goodsPrice=0
-                goods.goodsImg=''
+                this.goods.id = null
+                this.goods.goodsName=''
+                this.goods.goodsImg=''
+                this.goods.goodsDesc=''
+                this.goods.gtypeId=null
+                this.goods.bizId=null
+                this.goodsSkus=[{id:Date.now(),goodsId:"",text:"",price:0,stock:0}]
                 createOrUpdate.gtypeValue=[]
                 createOrUpdate.bizValue=""
                 this.dialogTitle = '添加';
                 this.dialogFormVisible = true
             },
             saveOrCreate() {
-                axios.get('http://localhost:8888/classes', {
-                    params: {
-                        'method': 'saveOrCreate',
-                        'id': classes.id,
-                        'classes_name': classes.classes_name,
-                        'college_id': classes.college_id,
-                    }
+                axios.post('http://localhost:8002/goods/saveOrCreate', {
+                    "id":this.goods.id,
+                    "goodsName":this.goods.goodsName,
+                    "goodsImg":this.goods.goodsImg,
+                    "goodsDesc":this.goods.goodsDesc,
+                    "gtypeId":this.createOrUpdate.gtypeValue[this.createOrUpdate.gtypeValue.length-1],
+                    "bizId":this.goods.bizId,
+                    "goodsSkus":this.goodsSkus,
                 }).then((res) => {
                     var data = res.data;
-                    if (data.code == "20000") {
+                    if (data.success) {
                         this.$message({
                             message: data.message,
                             type: 'success'
@@ -314,14 +329,13 @@
                 })
             },
             handleDelete(row) {
-                axios.get('http://localhost:8888/classes', {
+                axios.get('http://localhost:8002/goods/deleteById', {
                     params: {
-                        'method': 'delete',
                         'id': row.id,
                     }
                 }).then((res) => {
                     var data = res.data;
-                    if (data.code == "20000") {
+                    if (data.success) {
                         this.$message({
                             message: data.message,
                             type: 'success'
@@ -332,6 +346,15 @@
                     this.getData();
                 })
             },
+            removeGoodsSku(item){
+                var index = this.goods.goodsSkus.indexOf(item)
+                if (index !== -1) {
+                    this.goods.goodsSkus.splice(index, 1)
+                }
+            },
+            addGoodsSku(){
+                this.goods.goodsSkus.push( {id:Date.now(),text:"",price:0,stock:0})
+            }
         },
     });
 </script>
