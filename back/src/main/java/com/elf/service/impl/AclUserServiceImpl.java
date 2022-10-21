@@ -80,8 +80,9 @@ public class AclUserServiceImpl implements AclUserService {
     @Override
     public Result getPermissionByUserId(String userId) {
 //        根据userId获取roleId
-        String s = aclUserMapper.selectRoleIdByUserId(userId);
+        String roleId = aclUserMapper.selectRoleIdByUserId(userId);
+        Result treeList = aclPermissionService.getTreeList("1");
 //        根据role获取Permission
-        return aclPermissionService.getTreeList(s);
+        return aclPermissionService.getTreeListByRoleId(roleId);
     }
 }

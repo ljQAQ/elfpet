@@ -11,8 +11,8 @@
 -->
 
     <insert id="insertAclRole" parameterType="AclRole">
-        insert into acl_role (role_name, role_code, remark, is_deleted, gmt_create, gmt_modified)
-        values (#{roleName},#{roleCode},#{remark},#{isDeleted},#{gmtCreate},#{gmtModified})
+            insert into acl_role (id, role_name, role_code, remark, is_deleted, gmt_create, gmt_modified)
+        values (#{id},#{roleName},#{roleCode},#{remark},#{isDeleted},#{gmtCreate},#{gmtModified})
     </insert>
 
     <update id="updateAclRole" parameterType="AclRole">

@@ -173,8 +173,6 @@
       <div id="jing-pats">
         <h2>热卖宠物</h2>
         <p class="my-more"><a href="#">更多>> </a></p>
-        <br><br>
-
         <div class="two-ge">
           <a href="#"><img src="../images/two-ge.jpg"></a>
         </div>
@@ -186,7 +184,7 @@
             </div>
             <div class="box-content">
               <ul class="box-color-list">
-                <li :title="childItem.shopItemName" v-for="childItem in item.shopItems" :key="childItem.id">
+                <li :title="childItem.shopItemName" v-for="childItem in value.shopItems" :key="childItem.id">
                   <img :src="childItem.img">
                 </li>
               </ul>
@@ -195,24 +193,24 @@
                 <span style="color:#f00">￥{{value.goodsPrice}}</span>
               </div>
               <div class="btn-wrap">
-                <a class="btn1" target="_blank" href="#">查看详情</a>
+                <a class="btn1" target="_blank" href="#" @click="toDetail(value.id)">查看详情</a>
                 <a class="btn2" target="_blank" href="#">加入购物车</a>
               </div>
             </div>
           </div>
           <div class="box" v-else>
             <div class="box-header">
-              <a href="#"><img :src="item.shopItem.img"></a>
+              <a href="#"><img :src="value.goodsImg"></a>
             </div>
             <div class="box-content">
               <ul class="box-color-list">
-                <li :title="childItem.shopItemName" v-for="childItem in item.shopItems" :key="childItem.id">
+                <li :title="childItem.shopItemName" v-for="childItem in value.shopItems" :key="childItem.id">
                   <img :src="childItem.img">
                 </li>
               </ul>
               <div class="words">
-                <span style="color:#333">已选：{{item.shopItem.shopItemName}}  </span>
-                <span style="color:#f00">￥{{item.shopItem.shopPrice}}</span>
+                <span style="color:#333">已选：{{value.goodsName}}  </span>
+                <span style="color:#f00">￥{{value.goodsPrice}}</span>
               </div>
               <div class="btn-wrap">
                 <a class="btn1" target="_blank" href="#">查看详情</a>
@@ -375,6 +373,9 @@
                 this.pet_shop = pet.data.petList
               }
             }))
+          },
+          detail(id){
+            window.location.href="src/html/detail.html?id="+id;
           }
         }
 

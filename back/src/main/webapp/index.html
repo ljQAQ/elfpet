@@ -76,7 +76,8 @@
                     }).then((res) => {
                         var data = res.data;
                         if (data.success) {
-                            window.location.href="src/html/bgsys/index.html?id="+data.data.id;
+                            // sessionStorage.setItem("userId",data.data.id)
+                            window.location.href="src/html/bgsys/index.html";
                         } else {
                             this.$message.error(data.message);
                         }

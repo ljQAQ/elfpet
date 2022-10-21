@@ -19,6 +19,21 @@
     <!-- Google Fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
     <link rel="stylesheet" href="../../../assets/js/Lightweight-Chart/cssCharts.css">
+    <link rel="stylesheet" href="../../../assets/css/elementui/theme/index.css"/>
+    <style>
+        .el-tree-node__content{
+            height: 50px;
+        }
+        .el-tree-node.is-current > .el-tree-node__content {
+            background-color: #2F8DFB !important;
+            color: white;
+        }
+
+        .el-checkbox__input.is-checked+.el-checkbox__label {
+            background-color: #2c445a;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
@@ -56,153 +71,18 @@
         <div class="sidebar-collapse">
             <ul class="nav" id="main-menu">
                 <li>
-                    <a class="active-menu waves-effect waves-dark" href="index.html"><i class="fa fa-dashboard"></i>
+                    <a class="waves-effect waves-dark" href="index.html"><i class="fa fa-dashboard"></i>
                         首页</a>
                 </li>
-                <li v-for="">
-                    <a href="#" class="waves-effect waves-dark"><i class="fa fa-sitemap"></i>宠物管理<span
-                            class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('classes_list.jsp')"><i
-                                    class="fa fa-table"></i> 领养申请审核</a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('classes_list.jsp')"><i
-                                    class="fa fa-table"></i> 宠物列表</a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('classes_list.jsp')"><i
-                                    class="fa fa-edit"></i> 宠物类型列表 </a>
-                        </li>
-
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="waves-effect waves-dark"><i class="fa fa-sitemap"></i>宠物管理<span
-                            class="fa arrow"></span></a>
-                    <ul id="nav_aside" class="nav nav-second-level">
-
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('classes_list.jsp')"><i
-                                    class="fa fa-table"></i> 领养申请审核</a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('classes_list.jsp')"><i
-                                    class="fa fa-table"></i> 宠物列表</a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('classes_list.jsp')"><i
-                                    class="fa fa-edit"></i> 宠物类型列表 </a>
-                        </li>
-
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="waves-effect waves-dark"><i class="fa fa-sitemap"></i>权限管理<span
-                            class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('acl_permission.html')"><i
-                                    class="fa fa-table"></i> 权限管理</a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('acl_role.html')"><i
-                                    class="fa fa-table"></i> 角色管理</a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('acl_user.html')"><i
-                                    class="fa fa-edit"></i> 用户管理 </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="waves-effect waves-dark"><i class="fa fa-sitemap"></i>用户管理<span
-                            class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('user.html')"><i
-                                    class="fa fa-edit"></i> 用户管理 </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="waves-effect waves-dark"><i class="fa fa-sitemap"></i> 商品管理<span
-                            class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('shop_list.html')"><i
-                                    class="fa fa-table"></i> 商品管理</a>
-                        </li>
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('gtype_list.html')"><i
-                                    class="fa fa-edit"></i> 商品种类管理 </a>
-                        </li>
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('biz_list.html')"><i
-                                    class="fa fa-edit"></i> 商家管理 </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="waves-effect waves-dark"><i class="fa fa-sitemap"></i> 订单管理<span
-                            class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('shop_list.html')"><i
-                                    class="fa fa-table"></i> 订单 </a>
-                        </li>
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('gtype_list.jsp')"><i
-                                    class="fa fa-edit"></i> 售后 </a>
-                        </li>
-                        <li>
-                            <a href="#" class="waves-effect waves-dark" onclick="changeIframe('classes_list.jsp')"><i
-                                    class="fa fa-edit"></i> 评论 </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="waves-effect waves-dark"><i class="fa fa-sitemap"></i> 论坛管理<span
-                            class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li onclick="changeIframe('classes_list.jsp')">
-                            <a href="#" class="waves-effect waves-dark"><i class="fa fa-table"></i> 论坛列表</a>
-                        </li>
-
-                    </ul>
-                </li>
-                <li>
-                    <a href="#" class="waves-effect waves-dark"><i class="fa fa-sitemap"></i> 待定<span
-                            class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li onclick="changeIframe('classes_list.jsp')">
-                            <a href="#" class="waves-effect waves-dark"><i class="fa fa-table"></i> 待定1</a>
-                        </li>
-                    </ul>
-                </li>
-                <!--                        三级目录模板-->
-                <!--                        <li>-->
-                <!--                            <a href="#">Second Level Link<span class="fa arrow"></span></a>-->
-                <!--                            <ul class="nav nav-third-level">-->
-                <!--                                <li>-->
-                <!--                                    <a href="#">Third Level Link</a>-->
-                <!--                                </li>-->
-                <!--                                <li>-->
-                <!--                                    <a href="#">Third Level Link</a>-->
-                <!--                                </li>-->
-                <!--                                <li>-->
-                <!--                                    <a href="#">Third Level Link</a>-->
-                <!--                                </li>-->
-                <!--                            </ul>-->
-                <!--                        </li>-->
+                <el-tree
+                        :data="navList"
+                        node-key="id"
+                        accordion
+                        @node-click="handleNodeClick">
+                          <span class="custom-tree-node" slot-scope="{ node, data }">
+                            <span>{{ node.label }}</span>
+                          </span>
+                </el-tree>
             </ul>
 
         </div>
@@ -212,7 +92,7 @@
 
     <div id="page-wrapper">
         <div id="page-inner">
-            <iframe title="docm" id="ifra" style="width: 100%;height:100%;outline: none;border: none" src="welcome.html">
+            <iframe title="docm" style="width: 100%;height:100%;outline: none;border: none" :src="ifSrc">
             </iframe>
         </div>
         <!-- /. PAGE INNER  -->
@@ -245,7 +125,9 @@
 
 <script src="../../../assets/js/custom-scripts.js"></script>
 
+
 <script src="../../../assets/js/vue.js"></script>
+<script src="../../../assets/css/elementui/elementui.js"></script>
 <script src="../../../assets/js/axios.js"></script>
 
 </body>
@@ -253,36 +135,46 @@
     var app = new Vue({
         el:"#wrapper",
         data:{
+            userId:"",
             navList:[],
-
+            ifSrc:"",
+            itemShow:"",
         },
         created() {
+            this.userId =sessionStorage.getItem("userId")
+            console.log(this.userId)
             this.getData();
-            this.getGoodsOption();
+        },
+        mounted() {
+
         },
         methods:{
-
+            //获取全部权限
+            //获取用户权限
+            //展示用户有的权限
+            getData(){
+                axios.get('http://localhost:8002/aclUser/getPermissionByUserId', {
+                    params: {
+                        "userId":1
+                    }
+                }).then((res) => {
+                    var data = res.data;
+                    console.log(res)
+                    if (data.success) {
+                        this.navList=data.data.aclPermissionOptions
+                    } else {
+                        this.$message.error(data.message);
+                    }
+                })
+            },
+            handleNodeClick(data){
+                console.log(data)
+                if (data.children==null||data.children==""){
+                    this.ifSrc = data.path;
+                }
+            }
         }
     })
-    $(function () {
-        var userId = $.session.get("userId");
-        var s = window.sessionStorage.key("userId");
-        // $.ajax({
-        //     url:'',
-        //     type:'',
-        //     data:{
-        //
-        //     },
-        //     success:function (result) {
-        //
-        //     }
-        // })
-    })
-    function changeIframe(url) {
-        console.log(url)
-
-        document.getElementById('ifra').src = url;
-    }
 </script>
 
 </html>

@@ -165,6 +165,7 @@
         aclRole:aclRole,
         permissionList:[],
 
+
     }
     var app = new Vue({
         el: "#tb",
@@ -264,6 +265,7 @@
                 })
             },
             changeRolePermission(){
+                var list = this.$refs.tree.getHalfCheckedKeys() + this.$refs.tree.getCheckedKeys(true)
                 axios.post('http://localhost:8002/aclRolePermission/setRolePermission', {
                     "id":this.permissionDialog.roleId,
                     "permissionIds":this.$refs.tree.getCheckedKeys(),
@@ -280,6 +282,7 @@
                 })
                 this.$refs.tree.setCheckedKeys([]);
                 this.permissionDialog.dialogFormVisible = false;
+                this.getData();
             },
             changepage(currentPage){
             //    分页

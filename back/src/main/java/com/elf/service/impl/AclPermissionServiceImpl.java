@@ -22,18 +22,7 @@ public class AclPermissionServiceImpl implements AclPermissionService {
     @Override
     public Result getTreeList(String pid) {
         List<AclPermissionDto> all = aclPermissionMapper.getTreeList(pid);
-        for (AclPermissionDto aclPermissionDto : all) {
-            if (aclPermissionDto.getChildren().size()!=0){
-                for (AclPermissionDto child : aclPermissionDto.getChildren()) {
-                    if (child.getChildren().size()!=0){
-                        for (AclPermissionDto childChild : child.getChildren()) {
-                            childChild.setChildren(null);
-                        }
-                    }else child.setChildren(null);
-                }
-
-            }else aclPermissionDto.setChildren(null);
-        }
+        cleanPermissionListChildren(all);
         return Result.ok().data("aclPermissionOptions", all);
     }
 
@@ -59,10 +48,23 @@ public class AclPermissionServiceImpl implements AclPermissionService {
     @Override
     public Result getTreeListByRoleId(String roleId) {
         List<AclPermissionDto> list =  aclPermissionMapper.getPermissionListByRoleId(roleId);
-        return null;
+        System.out.println(list);
+        cleanPermissionListChildren(list);
+        return Result.ok().data("aclPermissionOptions", list);
     }
 
     public void cleanPermissionListChildren(List<AclPermissionDto> list){
+        for (AclPermissionDto aclPermissionDto : list) {
+            if (aclPermissionDto.getChildren()!=null&&aclPermissionDto.getChildren().size()!=0){
+                for (AclPermissionDto child : aclPermissionDto.getChildren()) {
+                    if (child.getChildren()!=null && child.getChildren().size()!=0){
+                        for (AclPermissionDto childChild : child.getChildren()) {
+                            childChild.setChildren(null);
+                        }
+                    }else child.setChildren(null);
+                }
 
+            }else aclPermissionDto.setChildren(null);
+        }
     }
 }

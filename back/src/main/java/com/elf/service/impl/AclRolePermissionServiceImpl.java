@@ -25,6 +25,7 @@ public class AclRolePermissionServiceImpl implements AclRolePermissionService {
     @Override
     public Result getPermissionIdByRoleId(String id) {
         List<String> permissionIdByRoleId = aclRolePermissionMapper.getPermissionIdByRoleId(id);
+
 //        if (permissionIdByRoleId==null||permissionIdByRoleId.size()==0){
 //            return Result.error().message("查询失败");
 //        }else
@@ -33,20 +34,26 @@ public class AclRolePermissionServiceImpl implements AclRolePermissionService {
 
     @Override
     public Result setRolePermission(AclRoleDto aclRoleDto) {
+//        排除全部权限
         aclRoleDto.getPermissionIds().remove("1");
         List<AclRolePermission> list = new ArrayList<>();
+//        根据roleId查询所有已有的permissionId
         List<String> permissionIdByRoleId = aclRolePermissionMapper.getPermissionIdByRoleId(aclRoleDto.getId());
+//        根据已有的permissionId排除掉传过来的数据库中已存在的
         for (String permissionId: aclRoleDto.getPermissionIds()) {
             boolean add = true;
             for (int i = 0; i < permissionIdByRoleId.size(); i++) {
                 if (permissionIdByRoleId.get(i).equals(permissionId)){
+//                    删除直到查询过来的仅有数据库中有但传过来的数据中没有的，用以删除
                     permissionIdByRoleId.remove(i);
                     add=false;
                 }
             }
+//            传过来的permissionId且不存在于数据库中
             if (add)
             list.add(new AclRolePermission(UUIDUtils.getUUID(),aclRoleDto.getId(),permissionId,0,new Date(),new Date()));
         }
+//        保存所有数据库中未有的
         Integer i =0;
         if (list.size() != 0) {
             i =aclRolePermissionMapper.saveRolePermission(list);

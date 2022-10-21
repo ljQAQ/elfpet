@@ -36,7 +36,7 @@ public class AclUserController {
     public Result createOrUpdate(@RequestBody AclUserDto aclUserDto){
         return aclUserService.createOrUpdate(aclUserDto);
     }
-
+//    查询权限根据用户id
     @GetMapping("/getPermissionByUserId")
     public Result getPermissionByUserId(String userId){
         return aclUserService.getPermissionByUserId(userId);

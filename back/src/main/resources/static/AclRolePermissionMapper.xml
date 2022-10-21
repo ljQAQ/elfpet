@@ -5,14 +5,22 @@
 <mapper namespace="com.elf.mapper.AclRolePermissionMapper">
 
 <!--
+    List<String> getPermissionIdByRoleId(String id);
       Integer saveRolePermission(List<AclRolePermission> list);
     -->
+    <select id="getPermissionIdByRoleId" resultType="String">
+        select permission_id from acl_role_permission
+        where role_id = #{id}
+          and permission_id not in (select id from acl_permission where pid = 1)
+    </select>
+
     <insert id="saveRolePermission">
         insert into acl_role_permission (id, role_id, permission_id, is_deleted, gmt_create, gmt_modified) VALUES
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.id}, #{item.roleId}, #{item.permissionId}, #{item.isDeleted}, #{item.gmtCreate}, #{item.gmtModified})
         </foreach>
     </insert>
+
     <delete id="deleteRolePermission">
         delete from acl_role_permission where role_id=#{roleId} and permission_id in (${permissionId});
     </delete>

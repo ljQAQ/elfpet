@@ -16,6 +16,14 @@
 
 
 
+    <select id="getPermissionListByRoleId" resultMap="TreeResultAclPermission" parameterType="String">
+        select * from acl_permission
+        where id in
+              (select permission_id from acl_role_permission where role_id = #{roleId})
+        and pid = 1
+    </select>
+
+
     <select id="getTreeList" resultMap="TreeResultAclPermission" parameterType="String">
         select * from acl_permission where pid = #{arg0}
     </select>
